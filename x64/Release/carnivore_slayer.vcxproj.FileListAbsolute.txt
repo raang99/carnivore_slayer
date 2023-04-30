@@ -1,1 +1,2 @@
 C:\Users\hsy25\source\repos\carnivore_slayer\x64\Release\carnivore_slayer.exe
+C:\Users\hsy25\source\carnivore_slayer\x64\Release\carnivore_slayer.exe

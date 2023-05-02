@@ -34,7 +34,7 @@ bool isOut(Pos b) {
 	else
 		return false;
 }
-void BasicAttack::update(std::list<SDL_Rect> enemies) {
+void BasicAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 	gen_timer -= 33;
 	if (gen_timer < 0) {
 		gen_timer = gen_cycle;
@@ -45,6 +45,18 @@ void BasicAttack::update(std::list<SDL_Rect> enemies) {
 	for (auto &i : pos_list) {
 		i.posX -= SPEED * i.cosAngle;
 		i.posY -= SPEED * i.sinAngle;
+		if (input[UP]) {
+			i.posY += 5;
+		}
+		if (input[DOWN]) {
+			i.posY -= 5;
+		}
+		if (input[LEFT]) {
+			i.posX += 5;
+		}
+		if (input[RIGHT]) {
+			i.posX -= 5;
+		}
 	}
 	pos_list.remove_if(isOut);
 }
@@ -55,8 +67,8 @@ void BasicAttack::add_pos(std::list<SDL_Rect> enemies) {
 	//가장 가까운 적 탐색
 	float min_distance = 1234123124.0f;
 	Pos pos;
-	pos.posX = SCREEN_CENTER_X;
-	pos.posY = SCREEN_CENTER_Y;
+	pos.posX = SCREEN_CENTER_X - 20;
+	pos.posY = SCREEN_CENTER_Y - 10;
 	float min_dx, min_dy;
 	float dx, dy, distance;
 	for (auto& i : enemies) {

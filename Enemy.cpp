@@ -3,14 +3,14 @@
 
 Enemy::Enemy(){
 	posX_ = static_cast<float>(rand() % SCREEN_WIDTH);
-	if (posX_ < 0) {
+	if (posX_ < SCREEN_CENTER_X) {
 		posX_ -= 200;
 	}
 	else {
 		posX_ += 200;
 	}
 	posY_ = static_cast<float>(rand() % SCREEN_HEIGHT);
-	if (posY_ < 0) {
+	if (posY_ < SCREEN_CENTER_Y) {
 		posY_ -= 200;
 	}
 	else {

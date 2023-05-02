@@ -59,7 +59,7 @@ class Attack
 public:
 	Attack() {};
 	~Attack() {};
-	virtual void update(std::list<SDL_Rect> enemies) = 0;
+	virtual void update(std::list<SDL_Rect> enemies, int input[5]) = 0;
 	virtual void render() = 0;
 	virtual int get_damage() = 0;
 	std::list<Pos> pos_list;

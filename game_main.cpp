@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
 	Uint32 last_time, cur_time;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	TTF_Init();
-	window = SDL_CreateWindow("First Window", 200, 200, 800, 600, 0);
+	window = SDL_CreateWindow("First Window", 500, 400, 800, 600, 0);
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {

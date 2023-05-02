@@ -1,144 +1,138 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include <cmath>
-#include <ctime>
 
-//// 화면 크기
-//const int SCREEN_WIDTH = 640;
-//const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+const int SPRITE_SIZE_WIDTH = 64;
+const int SPRITE_SIZE_HEIGHT = 128;
+const int FRAME_RATE = 60;
+const int FRAME_TIME = 1000 / FRAME_RATE;
+const int TOTAL_FRAMES = 6;
+
+SDL_Window* gWindow = NULL;
+SDL_Renderer* gRenderer = NULL;
+SDL_Texture* gSpriteSheetTexture = NULL;
+SDL_Rect gSpriteClips[TOTAL_FRAMES];
+int gCurrentFrame = 0;
+
+//bool init();
+//bool loadMedia();
+//void close();
 //
-//// 물체 크기
-//const int OBJECT_SIZE = 20;
-//
-//// 물체 속도
-//const float OBJECT_SPEED = 2.0f;
-//
-//// 물체 위치
-//struct ObjectPosition {
-//    float x;
-//    float y;
-//};
-//
-//// 물체 구조체
-//struct Object {
-//    ObjectPosition position;
-//    float angle;
-//};
-//
-//// 물체 생성 함수
-//Object CreateObject() {
-//    // 랜덤한 위치 생성
-//    float x = static_cast<float>(rand() % SCREEN_WIDTH);
-//    float y = static_cast<float>(rand() % SCREEN_HEIGHT);
-//
-//    // 물체 생성 및 초기화
-//    Object object;
-//    object.position = { x, y };
-//    object.angle = 0.0f;
-//
-//    return object;
-//}
-//
-//// 물체 이동 함수
-//void MoveObject(Object& object) {
-//    // 삼각비를 이용한 이동
-//    float dx = SCREEN_WIDTH / 2.0f - object.position.x;
-//    float dy = SCREEN_HEIGHT / 2.0f - object.position.y;
-//    float distance = std::sqrt(dx * dx + dy * dy);
-//    float cosAngle = dx / distance;
-//    float sinAngle = dy / distance;
-//    object.position.x += OBJECT_SPEED * cosAngle;
-//    object.position.y += OBJECT_SPEED * sinAngle;
-//
-//    // 각도 계산
-//    object.angle = std::atan2(dy, dx) * 180.0f / M_PI;
-//}
-//
-//// SDL 초기화 함수
-//bool InitializeSDL() {
+//bool init() {
+//    bool success = true;
 //    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-//        std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << '\n';
-//        return false;
+//        std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError() << std::endl;
+//        success = false;
 //    }
+//    else {
+//        if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
+//            std::cout << "Warning: Linear texture filtering not enabled!" << std::endl;
+//        }
+//        gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+//        if (gWindow == NULL) {
+//            std::cout << "Window could not be created! SDL Error: " << SDL_GetError() << std::endl;
+//            success = false;
+//        }
+//        else {
+//            gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+//            if (gRenderer == NULL) {
+//                std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
+//                success = false;
+//            }
+//            else {
+//                SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+//                int imgFlags = IMG_INIT_PNG;
+//                if (!(IMG_Init(imgFlags) & imgFlags)) {
+//                    std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+//                    success = false;
+//                }
+//            }
+//        }
+//    }
+//    return success;
+//}
 //
-//    return true;
+//bool loadMedia() {
+//    bool success = true;
+//    SDL_Surface* spriteSurface = IMG_Load("test.png");
+//    if (spriteSurface == NULL) {
+//        std::cout << "Unable to load image " << "spritesheet.png" << "! SDL_image Error: " << IMG_GetError() << std::endl;
+//        success = false;
+//    }
+//    else {
+//        gSpriteSheetTexture = SDL_CreateTextureFromSurface(gRenderer, spriteSurface);
+//        if (gSpriteSheetTexture == NULL) {
+//            std::cout << "Unable to create texture from " << "spritesheet.png" << "! SDL Error: " << SDL_GetError() << std::endl;
+//            success = false;
+//        }
+//        else {
+//            for (int i = 1; i < TOTAL_FRAMES; i++) {
+//                gSpriteClips[i].x = i * SPRITE_SIZE_WIDTH;
+//                gSpriteClips[i].y = 0;
+//                gSpriteClips[i].w = SPRITE_SIZE_WIDTH;
+//                gSpriteClips[i].h = SPRITE_SIZE_HEIGHT;
+//            }
+//            SDL_FreeSurface(spriteSurface);
+//        }
+//    }
+//    return success;
+//}
+//
+//void close() {
+//    SDL_DestroyTexture(gSpriteSheetTexture);
+//    gSpriteSheetTexture = NULL;
+//    SDL_DestroyRenderer(gRenderer);
+//    gRenderer = NULL;
+//    SDL_DestroyWindow(gWindow);
+//    gWindow = NULL;
+//    IMG_Quit();
+//    SDL_Quit();
 //}
 //
 //int main(int argc, char* args[]) {
-//    // SDL 초기화
-//    if (!InitializeSDL()) {
+//    if (!init()) {
+//        std::cout << "Failed to initialize!" << std::endl;
+//        return -1;
+//    }
+//    if (!loadMedia()) {
+//        std::cout << "Failed to load media!" << std::endl;
 //        return -1;
 //    }
 //
-//    // 랜덤 시드 설정
-//    srand(static_cast<unsigned int>(time(nullptr)));
-//
-//    // 윈도우 생성
-//    SDL_Window* window = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-//    if (window == nullptr) {
-//        std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << '\n';
-//        return -1;
-//    }
-//
-//    // Renderer 생성
-//    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-//    if (renderer == nullptr) {
-//        std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << '\n';
-//        return -1;
-//    }
-//
-//    // 물체 생성
-//    Object object = CreateObject();
-//
-//    // 이미지 로드
-//    SDL_Surface* surface = IMG_Load("Resource/plain.png");
-//    if (surface == nullptr) {
-//        printf("이미지 파일 로드 실패: %s\n", IMG_GetError());
-//        return 1;
-//    }
-//
-//    // 텍스처 생성
-//    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-//    if (texture == nullptr) {
-//        printf("텍스처 생성 실패: %s\n", SDL_GetError());
-//        return 1;
-//    }
-//
-//    // 서피스 해제
-//    SDL_FreeSurface(surface);
-//
-//    // 이벤트 루프
 //    bool quit = false;
+//    SDL_Event e;
+//    int frameStartTime = 0;
+//    int frameEndTime = 0;
+//
 //    while (!quit) {
-//        // 이벤트 처리
-//        SDL_Event event;
-//        while (SDL_PollEvent(&event) != 0) {
-//            if (event.type == SDL_QUIT) {
+//        frameStartTime = SDL_GetTicks();
+//        while (SDL_PollEvent(&e) != 0) {
+//            if (e.type == SDL_QUIT) {
 //                quit = true;
 //            }
 //        }
+//        gCurrentFrame++;
+//        if (0 == (gCurrentFrame / (FRAME_RATE / TOTAL_FRAMES)))
+//            continue;
+//        SDL_RenderClear(gRenderer);
+//        SDL_Rect currentClip = gSpriteClips[gCurrentFrame / (FRAME_RATE / TOTAL_FRAMES)];
+//        SDL_RenderCopy(gRenderer, gSpriteSheetTexture, &currentClip, NULL);
+//        SDL_RenderPresent(gRenderer);
 //
-//        // 배경색 설정
-//        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-//        SDL_RenderClear(renderer);
+//        if (gCurrentFrame / (FRAME_RATE / TOTAL_FRAMES) >= TOTAL_FRAMES) {
+//            gCurrentFrame = 0;
+//        }
 //
-//        // 물체 이동
-//        MoveObject(object);
-//
-//        // 물체 렌더링
-//        SDL_Rect objectRect = { static_cast<int>(object.position.x), static_cast<int>(object.position.y), OBJECT_SIZE, OBJECT_SIZE };
-//        SDL_RenderCopyEx(renderer, texture, nullptr, &objectRect, object.angle, nullptr, SDL_FLIP_NONE);
-//
-//        // 렌더러 업데이트
-//        SDL_RenderPresent(renderer);
-//        SDL_Delay(20);
+//        frameEndTime = SDL_GetTicks();
+//        int frameTimeDiff = frameEndTime - frameStartTime;
+//        if (frameTimeDiff < FRAME_TIME) {
+//            SDL_Delay(FRAME_TIME - frameTimeDiff);
+//        }
 //    }
 //
-//    // SDL 종료
-//    SDL_DestroyRenderer(renderer);
-//    SDL_DestroyWindow(window);
-//    SDL_Quit();
+//    close();
 //
 //    return 0;
 //}

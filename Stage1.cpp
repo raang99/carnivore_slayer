@@ -70,7 +70,7 @@ void Stage1::Update() {
 	std::list<SDL_Rect> enemy_drect_list = enemy.get_drect_list();
 	user_.update(input);
 	for (auto& i : attack_list) {
-		i->update(enemy_drect_list);
+		i->update(enemy_drect_list, input);
 	}
 
 	int hp;

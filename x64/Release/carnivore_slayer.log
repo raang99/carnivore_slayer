@@ -1,8 +1,7 @@
-﻿  game_main.cpp
-  test.cpp
+﻿  Stage1.cpp
   코드를 생성하고 있습니다.
-  346 of 480 functions (72.1%) were compiled, the rest were copied from previous compilation.
-    3 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  3 of 610 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   carnivore_slayer.vcxproj -> C:\Users\hsy25\source\carnivore_slayer\x64\Release\carnivore_slayer.exe

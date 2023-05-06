@@ -75,3 +75,46 @@ int Enemy::get_hp() {
 void Enemy::set_hp(int hp) {
 	hp_ = hp;
 }
+
+Exp::Exp(int x, int y) {
+	posX_ = x;
+	posY_ = y;
+	SDL_Surface* surface = IMG_Load("Resource/exp.png");
+	if (surface == nullptr) {
+		printf("이미지 파일 로드 실패: %s\n", IMG_GetError());
+		exit(-1);
+	}
+	texture_ = SDL_CreateTextureFromSurface(renderer, surface);
+	if (texture_ == nullptr) {
+		printf("텍스처 생성 실패: %s\n", SDL_GetError());
+		exit(-1);
+	}
+	SDL_FreeSurface(surface);
+}
+Exp::~Exp() {
+	SDL_DestroyTexture(texture_);
+}
+
+void Exp::render() {
+	SDL_Rect objectRect = { posX_, posY_, 25, 25 };
+	SDL_RenderCopy(renderer, texture_, nullptr, &objectRect);
+}
+
+void Exp::update(int input[5]) {
+	if (input[UP]) {
+		posY_ += 5;
+	}
+	if (input[DOWN]) {
+		posY_ -= 5;
+	}
+	if (input[LEFT]) {
+		posX_ += 5;
+	}
+	if (input[RIGHT]) {
+		posX_ -= 5;
+	}
+}
+
+SDL_Rect Exp::get_drect() {
+	return { posX_, posY_, 25, 25 };
+}

@@ -24,8 +24,10 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="SkillChoice.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="tide.h" />
     <ClInclude Include="TTF.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="BasicAttack.h" />
@@ -38,9 +40,12 @@
     <ClCompile Include="game_main.cpp" />
     <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="SkillChoice.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="test2.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="tide.cpp" />
     <ClCompile Include="TTF.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>

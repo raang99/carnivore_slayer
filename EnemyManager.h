@@ -7,11 +7,12 @@ public:
 	EnemyManager();
 	~EnemyManager();
 	void render();
-	void update(int input[5], std::list<Attack*> *attack);
+	void update(int input[5], std::list<Attack*> *attack, std::list<Exp*>* exp_list);
 	std::list<SDL_Rect> get_drect_list();
 
 private:
 	std::list<Enemy*> list;
+	std::list<Exp*> exp_list;
 	double gen_timer, gen_cycle;
 	int gen_quantity;
 };

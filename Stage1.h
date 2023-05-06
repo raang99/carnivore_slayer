@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "EnemyManager.h"
 #include "BasicAttack.h"
+#include "SkillChoice.h"
 
 #define MAX_X 800
 #define MAX_Y 600
@@ -30,7 +31,9 @@ private:
 	User user_;
 	Map map_;
 	EnemyManager enemy;
+	SkillChoice sk_ch;
 	std::list<Attack*> attack_list;
+	std::list<Exp*> exp_list;
 	Texture *plain, *background;
 	Bullet *bullet;
 	TTF* score_text_, * score_num_;

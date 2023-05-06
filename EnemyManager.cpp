@@ -20,7 +20,7 @@ void EnemyManager::render() {
 		i->render();
 }
 
-void EnemyManager::update(int input[5], std::list<Attack*> *attack) {
+void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Exp*> *exp_list) {
 	gen_timer -= 33;
 	if (gen_timer < 0) {
 		for (int i = 0; i < gen_quantity; i++)
@@ -30,6 +30,7 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack) {
 	int hp;
 	for (auto& i : list) {
 		i->update(input);
+		hp = i->get_hp();
 		for (auto& a : *attack) {
 			if (isHitted(i, &a->pos_list)) {
 				hp = i->get_hp();
@@ -37,6 +38,8 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack) {
 				i->set_hp(hp);
 			}
 		}
+		if (hp <= 0)
+			exp_list->push_back(new Exp(i->posX_, i->posY_));
 	}
 	list.remove_if(isDead);
 }

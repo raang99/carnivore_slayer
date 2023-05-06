@@ -19,3 +19,15 @@ private:
 	float angle_;
 	int hp_ = 20;
 };
+
+class Exp {
+public:
+	Exp(int x, int y);
+	~Exp();
+	void render();
+	void update(int input[5]);
+	SDL_Rect get_drect();
+	int posX_, posY_;
+private:
+	SDL_Texture* texture_;
+};

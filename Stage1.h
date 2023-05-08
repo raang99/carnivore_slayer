@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "EnemyManager.h"
 #include "BasicAttack.h"
+#include "ElectricField.h"
 #include "SkillChoice.h"
 
 #define MAX_X 800

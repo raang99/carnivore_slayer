@@ -1,4 +1,5 @@
 #include "EnemyManager.h"
+#include "ElectricField.h"
 
 EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
@@ -31,17 +32,29 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Ex
 	for (auto& i : list) {
 		i->update(input);
 		hp = i->get_hp();
+
 		for (auto& a : *attack) {
-			if (isHitted(i, &a->pos_list)) {
+			if (isHitted(i, a)) {
 				hp = i->get_hp();
 				hp -= a->get_damage(); //damage;
 				i->set_hp(hp);
 			}
 		}
+
 		if (hp <= 0)
 			exp_list->push_back(new Exp(i->posX_, i->posY_));
 	}
+
 	list.remove_if(isDead);
+
+	std::list<Attack*>::iterator iter = attack->begin();
+	for (; iter != attack->end(); ++iter)
+	{
+		if ((*iter)->skill_type == SkillType::ElectricField)
+		{
+			dynamic_cast<ElectricField*>((*iter))->ClearPos();
+		}
+	}
 }
 
 std::list<SDL_Rect> EnemyManager::get_drect_list() {
@@ -51,14 +64,22 @@ std::list<SDL_Rect> EnemyManager::get_drect_list() {
 	return result;
 }
 
-bool isHitted(Enemy* e, std::list<Pos>* pos_list) {
+bool isHitted(Enemy* e, Attack* Attack)
+{
+	std::list<Pos>* pos_list = &Attack->pos_list;
+
 	SDL_Rect objectRect = e->get_drect();
 	SDL_Rect bulletRect = { 0 };
 	for (auto& i : *pos_list) {
 		bulletRect = i.objectRect;
 		printf("%d %d\n", bulletRect.x, bulletRect.y);
 		if (isOverlap(objectRect, bulletRect)) {
-			pos_list->remove(i);
+
+			if (Attack->skill_type != SkillType::ElectricField)
+			{
+				pos_list->remove(i);
+			}
+
 			return true;
 		}
 	}

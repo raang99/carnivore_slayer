@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "ElectricField.h"
+#include "thunder.h"
 
 EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
@@ -54,6 +55,10 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Ex
 		{
 			dynamic_cast<ElectricField*>((*iter))->ClearPos();
 		}
+		if ((*iter)->skill_type == SkillType::Thunder)
+		{
+			dynamic_cast<Thunder*>((*iter))->ClearPos();
+		}
 	}
 }
 
@@ -75,7 +80,7 @@ bool isHitted(Enemy* e, Attack* Attack)
 		//printf("%d %d\n", bulletRect.x, bulletRect.y);
 		if (isOverlap(objectRect, bulletRect)) {
 
-			if (Attack->skill_type != SkillType::ElectricField)
+			if (Attack->skill_type != SkillType::ElectricField && Attack->skill_type != SkillType::Thunder)
 			{
 				pos_list->remove(i);
 			}

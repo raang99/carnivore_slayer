@@ -9,6 +9,7 @@
 #include "EnemyManager.h"
 #include "BasicAttack.h"
 #include "ElectricField.h"
+#include "thunder.h"
 #include "SkillChoice.h"
 
 #define MAX_X 800

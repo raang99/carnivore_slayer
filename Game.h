@@ -54,6 +54,12 @@ public:
 	virtual void Render() = 0;
 };
 
+enum class SkillType {
+	Default,
+	BasicAttack,
+	ElectricField
+};
+
 class Attack
 {
 public:
@@ -63,4 +69,5 @@ public:
 	virtual void render() = 0;
 	virtual int get_damage() = 0;
 	std::list<Pos> pos_list;
+	SkillType skill_type = SkillType::Default;
 };

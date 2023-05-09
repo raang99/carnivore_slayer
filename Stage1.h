@@ -25,6 +25,7 @@ public:
 	virtual void Update();
 	virtual void Render();
 private:
+	void user_hitted(std::list<SDL_Rect> enemy_drect_list);
 	int input[5] = { 0 };
 	int score_point = 0;
 	std::string output;

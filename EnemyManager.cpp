@@ -72,7 +72,7 @@ bool isHitted(Enemy* e, Attack* Attack)
 	SDL_Rect bulletRect = { 0 };
 	for (auto& i : *pos_list) {
 		bulletRect = i.objectRect;
-		printf("%d %d\n", bulletRect.x, bulletRect.y);
+		//printf("%d %d\n", bulletRect.x, bulletRect.y);
 		if (isOverlap(objectRect, bulletRect)) {
 
 			if (Attack->skill_type != SkillType::ElectricField)

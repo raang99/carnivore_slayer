@@ -69,6 +69,7 @@ void Stage1::HandleEvents() {
 void Stage1::Update() {
 
 	std::list<SDL_Rect> enemy_drect_list = enemy.get_drect_list();
+	//user_hitted(enemy_drect_list);
 	user_.update(input);
 	for (auto& i : attack_list) {
 		i->update(enemy_drect_list, input);
@@ -76,6 +77,7 @@ void Stage1::Update() {
 	for (auto it = exp_list.begin(); it != exp_list.end();) {
 		(*it)->update(input);
 		if (isOverlap(user_.drect_, (*it)->get_drect())) {
+			user_.add_exp(10);
 			(*it)->~Exp();
 			exp_list.erase(it);
 		}
@@ -97,4 +99,15 @@ void Stage1::Render() {
 	for (auto& i : exp_list)
 		i->render();
 	SDL_RenderPresent(renderer);
+}
+
+void Stage1::user_hitted(std::list<SDL_Rect> enemy_drect_list) {
+	if (user_.get_hit_delay() < 0) {
+		for (auto& i : enemy_drect_list) {
+			if (isOverlap(user_.drect_, i)) {
+					user_.sub_hp(10);
+			}
+		}
+		user_.reset_hit_delay();
+	}
 }

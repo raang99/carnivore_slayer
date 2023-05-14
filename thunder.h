@@ -11,9 +11,8 @@ public:
 	void render()override;
 	void update(std::list<SDL_Rect> enemies, int input[5])override;
 	int get_damage()override;
-	//void add_pos(std::list<SDL_Rect> enemies);
-	//bool collider(Pos e);
-
+	void add_pos();
+	
 	bool stateoff;
 	void ClearPos() { pos_list.clear(); stateoff = true; };
 
@@ -26,7 +25,7 @@ private:
 	SDL_Rect s_rect , d_rect;
 	SDL_Point s_cen;
 	int damage;
-	Pos des;
+	Pos APos;
 };
 double setRandom(int a);
 double setRandom2(int a);

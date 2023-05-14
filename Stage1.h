@@ -29,7 +29,6 @@ private:
 	int input[5] = { 0 };
 	int score_point = 0;
 	std::string output;
-
 	User user_;
 	Map map_;
 	EnemyManager enemy;
@@ -38,20 +37,14 @@ private:
 	std::list<Exp*> exp_list;
 	Texture *plain, *background;
 	Bullet *bullet;
-	TTF* score_text_, * score_num_;
 	SDL_Texture* sheet_texture, * b_texture, * back_texture, * score, * point_texture;
-	TTF_Font* font2;
-	SDL_Surface* tmp_surface;
-	SDL_Rect srect, bsrect, back_srect;
-	SDL_Rect drect, back_drect;
-	SDL_Rect brect[BULLET];
-	SDL_Rect score_rect;
-	SDL_Color black = { 0, 0, 0, 0 };
+	SDL_Color white = { 255, 255, 255, 0 };
 	bool is_shot = false;
 	int num_rows = MAX_Y / TILE; // 행의 개수
 	int num_cols = MAX_X / TILE; // 열의 개수
 	// 흘러간 시간 기록
 	double g_elapsed_time_ms;
+	TTF* time;
 	Mix_Music* bg_sound;
 	Mix_Chunk* gun_sound;
 

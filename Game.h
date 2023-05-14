@@ -11,6 +11,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <atlstr.h>
+#include <vector>
 
 
 #define UP 0x0

@@ -1,136 +1,139 @@
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include <string>
-
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-const int BUTTON_WIDTH = 100;
-const int BUTTON_HEIGHT = 50;
-const std::string BUTTON_LABELS[] = { "선택지 1", "선택지 2", "선택지 3" };
-const int BUTTON_COUNT = sizeof(BUTTON_LABELS) / sizeof(BUTTON_LABELS[0]);
-const int BUTTON_PADDING = 20;
-
-//struct Button
-//{
-//    int x;
-//    int y;
-//    int width;
-//    int height;
-//    std::string label;
+//#include <SDL.h>
+//#include <SDL_image.h>
+//#include <iostream>
+//#include <vector>
+//
+//// 스프라이트 클래스 정의
+//class Sprite {
+//public:
+//    Sprite(SDL_Renderer* renderer, const std::string& filePath, int frameCount, int animationSpeed);
+//    ~Sprite();
+//
+//    void Update(float deltaTime);
+//    void Render(SDL_Renderer* renderer, int x, int y);
+//
+//private:
+//    SDL_Texture* texture_;
+//    int frameCount_;
+//    int currentFrame_;
+//    int animationSpeed_;
+//    int frameWidth_;
+//    int frameHeight_;
 //};
 //
-//int main(int argc, char** argv)
+//Sprite::Sprite(SDL_Renderer* renderer, const std::string& filePath, int frameCount, int animationSpeed)
+//    : texture_(nullptr), frameCount_(frameCount), currentFrame_(0), animationSpeed_(animationSpeed), frameWidth_(0), frameHeight_(0)
 //{
-//    if (SDL_Init(SDL_INIT_VIDEO) != 0)
-//    {
-//        SDL_Log("SDL 초기화 실패: %s", SDL_GetError());
+//    // 이미지 파일로부터 텍스처 생성
+//    SDL_Surface* surface = IMG_Load(filePath.c_str());
+//    if (surface == nullptr) {
+//        std::cerr << "Failed to load image: " << filePath << std::endl;
+//        return;
+//    }
+//
+//    texture_ = SDL_CreateTextureFromSurface(renderer, surface);
+//    SDL_FreeSurface(surface);
+//
+//    // 텍스처로부터 프레임의 너비와 높이 계산
+//    int textureWidth, textureHeight;
+//    SDL_QueryTexture(texture_, nullptr, nullptr, &textureWidth, &textureHeight);
+//    frameWidth_ = textureWidth / frameCount_;
+//    frameHeight_ = textureHeight;
+//}
+//
+//Sprite::~Sprite()
+//{
+//    if (texture_ != nullptr) {
+//        SDL_DestroyTexture(texture_);
+//    }
+//}
+//
+//void Sprite::Update(float deltaTime)
+//{
+//    // 애니메이션 프레임 업데이트
+//    currentFrame_ = static_cast<int>((SDL_GetTicks() / animationSpeed_) % frameCount_);
+//}
+//
+//void Sprite::Render(SDL_Renderer* renderer, int x, int y)
+//{
+//    // 현재 프레임의 텍스처 영역 계산
+//    SDL_Rect srcRect = { frameWidth_ * currentFrame_, 0, frameWidth_, frameHeight_ };
+//
+//    // 텍스처를 렌더러에 그림
+//    SDL_Rect destRect = { x, y, frameWidth_, frameHeight_ };
+//    SDL_RenderCopy(renderer, texture_, &srcRect, &destRect);
+//}
+//
+//int main(int argc, char* argv[])
+//{
+//    const int screenWidth = 640;
+//    const int screenHeight = 480;
+//
+//    // SDL 초기화
+//    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+//        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
 //        return 1;
 //    }
 //
-//    if (TTF_Init() != 0)
-//    {
-//        SDL_Log("SDL_ttf 초기화 실패: %s", TTF_GetError());
+//    // SDL 윈도우 생성
+//    SDL_Window* window = SDL_CreateWindow("Sprite Animation", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
+//    if (window == nullptr) {
+//        std::cerr << "Failed to create SDL window: " << SDL_GetError() << std::endl;
 //        SDL_Quit();
 //        return 1;
 //    }
-//
-//    SDL_Window* window = SDL_CreateWindow("SDL 선택지 예제", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-//    if (window == nullptr)
-//    {
-//        SDL_Log("윈도우 생성 실패: %s", SDL_GetError());
-//        TTF_Quit();
-//        SDL_Quit();
-//        return 1;
-//    }
-//
-//    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-//    if (renderer == nullptr)
-//    {
-//        SDL_Log("렌더러 생성 실패: %s", SDL_GetError());
+//    // SDL 렌더러 생성
+//    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+//    if (renderer == nullptr) {
+//        std::cerr << "Failed to create SDL renderer: " << SDL_GetError() << std::endl;
 //        SDL_DestroyWindow(window);
-//        TTF_Quit();
 //        SDL_Quit();
 //        return 1;
 //    }
 //
-//    TTF_Font* font = TTF_OpenFont("Resource/arose.ttf", 24);
-//    if (font == nullptr)
-//    {
-//        SDL_Log("폰트 열기 실패: %s", TTF_GetError());
+//    // SDL_image 초기화
+//    int imgFlags = IMG_INIT_PNG;
+//    if (!(IMG_Init(imgFlags) & imgFlags)) {
+//        std::cerr << "Failed to initialize SDL_image: " << IMG_GetError() << std::endl;
 //        SDL_DestroyRenderer(renderer);
 //        SDL_DestroyWindow(window);
-//        TTF_Quit();
 //        SDL_Quit();
 //        return 1;
 //    }
 //
-//    Button buttons[BUTTON_COUNT];
-//    int totalWidth = BUTTON_PADDING * (BUTTON_COUNT + 1);
-//    for (int i = 0; i < BUTTON_COUNT; i++)
-//    {
-//        int buttonX = (SCREEN_WIDTH - totalWidth) / 2 + BUTTON_PADDING * (i + 1) + BUTTON_WIDTH * i;
-//        int buttonY = SCREEN_HEIGHT / 2 - BUTTON_HEIGHT / 2;
-//        buttons[i] = { buttonX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_LABELS[i] };
-//    }
+//    // 스프라이트 생성
+//    Sprite sprite(renderer, "Resource/user/down.png", 10, 200);
+//
+//    // 게임 루프
+//    bool quit = false;
 //    SDL_Event event;
-//    bool isRunning = true;
-//    while (isRunning)
-//    {
-//        while (SDL_PollEvent(&event))
-//        {
-//            switch (event.type)
-//            {
-//            case SDL_QUIT:
-//                isRunning = false;
-//                break;
-//            case SDL_MOUSEBUTTONDOWN:
-//            {
-//                int mouseX = event.button.x;
-//                int mouseY = event.button.y;
-//                for (int i = 0; i < BUTTON_COUNT; i++)
-//                {
-//                    if (mouseX >= buttons[i].x && mouseX <= buttons[i].x + buttons[i].width &&
-//                        mouseY >= buttons[i].y && mouseY <= buttons[i].y + buttons[i].height)
-//                    {
-//                        printf("%s\n", buttons[i].label.c_str());
-//                        break;
-//                    }
-//                }
-//            }
-//            break;
+//    while (!quit) {
+//        while (SDL_PollEvent(&event) != 0) {
+//            if (event.type == SDL_QUIT) {
+//                quit = true;
 //            }
 //        }
 //
-//        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+//        // 프레임 업데이트
+//        float deltaTime = 0.01f; // 이 값을 조정하여 애니메이션 속도를 조절할 수 있습니다.
+//        sprite.Update(deltaTime);
+//
+//        // 화면 지우기
+//        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 //        SDL_RenderClear(renderer);
 //
-//        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-//        for (int i = 0; i < BUTTON_COUNT; i++)
-//        {
-//            SDL_Rect rect = { buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height };
-//            SDL_RenderFillRect(renderer, &rect);
+//        // 스프라이트 렌더링
+//        sprite.Render(renderer, screenWidth / 2 - 64 / 2, screenHeight / 2 - 64 / 2);
 //
-//            SDL_Surface* labelSurface = TTF_RenderUTF8_Blended(font, buttons[i].label.c_str(), { 255, 255, 255 });
-//            if (labelSurface != nullptr)
-//            {
-//                SDL_Texture* labelTexture = SDL_CreateTextureFromSurface(renderer, labelSurface);
-//                if (labelTexture != nullptr)
-//                {
-//                    SDL_Rect labelRect = { buttons[i].x + (buttons[i].width - labelSurface->w) / 2, buttons[i].y + (buttons[i].height - labelSurface->h) / 2, labelSurface->w, labelSurface->h };
-//                    SDL_RenderCopy(renderer, labelTexture, nullptr, &labelRect);
-//                    SDL_DestroyTexture(labelTexture);
-//                }
-//                SDL_FreeSurface(labelSurface);
-//            }
-//        }
-//
+//        // 화면 업데이트
 //        SDL_RenderPresent(renderer);
 //    }
 //
-//    TTF_CloseFont(font);
+//    // 자원 해제
 //    SDL_DestroyRenderer(renderer);
 //    SDL_DestroyWindow(window);
-//    TTF_Quit();
+//    IMG_Quit();
 //    SDL_Quit();
+//
 //    return 0;
 //}

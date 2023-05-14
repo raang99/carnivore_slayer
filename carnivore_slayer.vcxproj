@@ -26,6 +26,7 @@
     <ClInclude Include="Intro.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="SkillChoice.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="tide.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="SkillChoice.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="test2.cpp" />

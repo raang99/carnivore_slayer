@@ -9,8 +9,11 @@ Stage1::Stage1() {
 	background->set_srect(0, 0, 800, 600);
 	background->set_drect(0, 0, 800, 600);
 	}
+	{//attack
 	attack_list.push_back(new BasicAttack());
-	attack_list.push_back(new ElectricField());	
+	//attack_list.push_back(new ElectricField());	
+	}
+	time = new TTF("Resource/arial.ttf", 40);
 }
 Stage1::~Stage1() {
 }
@@ -67,7 +70,7 @@ void Stage1::HandleEvents() {
 }
 
 void Stage1::Update() {
-
+	g_elapsed_time_ms += 33;
 	std::list<SDL_Rect> enemy_drect_list = enemy.get_drect_list();
 	//user_hitted(enemy_drect_list);
 	user_.update(input);
@@ -88,10 +91,16 @@ void Stage1::Update() {
 }
 
 void Stage1::Render() {
-
 	map_.setCamera(user_.xPos, user_.yPos);
 	map_.render();
 	user_.render();
+	{//time
+		wchar_t tmp[10];
+		int seconds = int(g_elapsed_time_ms / 1000.0f);
+		wsprintf(tmp, L"%02d:%02d", seconds / 60, seconds % 60);
+		time->set_text(tmp, white);
+		time->render(350, 20);
+	}
 	
 	enemy.render();
 	for(auto& i : attack_list)

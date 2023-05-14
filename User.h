@@ -1,5 +1,6 @@
 #pragma once
 #include "Game.h"
+#include "Sprite.h"
 
 class User {
 public:
@@ -14,7 +15,9 @@ public:
 	int xPos, yPos;
 	SDL_Rect drect_;
 private:
-	SDL_Texture* texture_;
+	void set_direct(int input[5]);
+	Sprite* texture[4];
+	int direct;
 	SDL_Rect srect_;
 	float max_exp, cur_exp;
 	float max_hp, cur_hp;

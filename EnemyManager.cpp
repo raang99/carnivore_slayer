@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "ElectricField.h"
-#include "thunder.h"
+//#include "thunder.h"
+#include "Freeze.h"
 
 EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
@@ -55,9 +56,12 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Ex
 		{
 			dynamic_cast<ElectricField*>((*iter))->ClearPos();
 		}
-		if ((*iter)->skill_type == SkillType::Thunder)
+		/*else if ((*iter)->skill_type == SkillType::Thunder)
 		{
 			dynamic_cast<Thunder*>((*iter))->ClearPos();
+		}*/
+		else if ((*iter)->skill_type == SkillType::Freeze) {
+			dynamic_cast<Freeze*>((*iter))->ClearPos();
 		}
 	}
 }
@@ -79,12 +83,12 @@ bool isHitted(Enemy* e, Attack* Attack)
 		bulletRect = i.objectRect;
 		//printf("%d %d\n", bulletRect.x, bulletRect.y);
 		if (isOverlap(objectRect, bulletRect)) {
-
-			if (Attack->skill_type != SkillType::ElectricField && Attack->skill_type != SkillType::Thunder)
-			{
+			if (!isMultiattack(Attack)) {
 				pos_list->remove(i);
 			}
-
+			if (Attack->skill_type == SkillType::Freeze) {
+				e->isFrozen = true;
+			}
 			return true;
 		}
 	}
@@ -107,4 +111,15 @@ bool isOverlap(SDL_Rect rect1, SDL_Rect rect2) {
 	}
 	// 겹치는 부분이 없음
 	return false;
+}
+
+bool isMultiattack(Attack* Attack) {
+	switch (Attack->skill_type) {
+	case SkillType::ElectricField:
+	case SkillType::Thunder:
+	case SkillType::Freeze:
+		return true;
+	default:
+		return false;
+	}
 }

@@ -20,3 +20,4 @@ private:
 bool isDead(Enemy* e);
 bool isHitted(Enemy* e, Attack* Attack);
 bool isOverlap(SDL_Rect rect1, SDL_Rect rect2);
+bool isMultiattack(Attack* Attack);

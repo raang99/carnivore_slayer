@@ -9,9 +9,10 @@ Stage1::Stage1() {
 	background->set_srect(0, 0, 800, 600);
 	background->set_drect(0, 0, 800, 600);
 	}
-	//attack_list.push_back(new BasicAttack());
-	//attack_list.push_back(new ElectricField());	
-	attack_list.push_back(new Thunder());
+	attack_list.push_back(new BasicAttack());
+	attack_list.push_back(new ElectricField());	
+	//attack_list.push_back(new Thunder());
+	attack_list.push_back(new Freeze());
 }
 Stage1::~Stage1() {
 }

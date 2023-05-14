@@ -54,6 +54,9 @@
     <ClInclude Include="ElectricField.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Freeze.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="User.cpp">
@@ -102,6 +105,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ElectricField.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Freeze.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

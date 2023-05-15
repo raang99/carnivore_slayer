@@ -10,6 +10,7 @@
 #include "BasicAttack.h"
 #include "ElectricField.h"
 #include "thunder.h"
+#include "Freeze.h"
 #include "SkillChoice.h"
 
 #define MAX_X 800

@@ -14,10 +14,12 @@ public:
 	int get_hp();
 	void set_hp(int hp);
 	float posX_, posY_;
+	bool isFrozen;
 private:
 	SDL_Texture* texture_;
 	float angle_;
 	int hp_ = 20;
+	float unfreeze_timer = 500.f;
 };
 
 class Exp {

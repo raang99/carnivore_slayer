@@ -59,7 +59,8 @@ enum class SkillType {
 	Default,
 	BasicAttack,
 	ElectricField,
-	Thunder
+	Thunder,
+	Freeze
 };
 
 class Attack

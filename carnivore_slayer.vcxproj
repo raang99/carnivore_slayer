@@ -22,6 +22,7 @@
     <ClInclude Include="ElectricField.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="Freeze.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="Map.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="ElectricField.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="Freeze.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game_main.cpp" />
     <ClCompile Include="Intro.cpp" />

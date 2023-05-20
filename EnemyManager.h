@@ -1,13 +1,17 @@
 #pragma once
 #include "Game.h"
 #include "Enemy.h"
+#include "ElectricField.h"
+#include "thunder.h"
+#include "Freeze.h"
+#include "HornAttack.h"
 
 class EnemyManager {
 public:
 	EnemyManager();
 	~EnemyManager();
 	void render();
-	void update(int input[5], std::list<Attack*> *attack, std::list<Exp*>* exp_list);
+	void update(int input[5], std::vector<Attack*> *attack, std::list<Exp*>* exp_list);
 	std::list<SDL_Rect> get_drect_list();
 
 private:

@@ -14,6 +14,7 @@ BasicAttack::BasicAttack() {
 	gen_cycle = 1000.0f;
 	gen_quantity = 1;
 	damage = 20;
+	level = 1;
 }
 
 BasicAttack::~BasicAttack() {
@@ -21,6 +22,8 @@ BasicAttack::~BasicAttack() {
 }
 
 void BasicAttack::render() {
+	if (level < 1)
+		return;
 	for (auto& i : pos_list) {
 		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), 40, 20 };
 		SDL_RenderCopyEx(renderer, texture_, nullptr , &i.objectRect, i.angle, nullptr, SDL_FLIP_HORIZONTAL);
@@ -35,6 +38,8 @@ bool isOut(Pos b) {
 		return false;
 }
 void BasicAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
+	if (level < 1)
+		return;
 	gen_timer -= 33;
 	if (gen_timer < 0) {
 		gen_timer = gen_cycle;
@@ -46,23 +51,34 @@ void BasicAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 		i.posX -= SPEED * i.cosAngle;
 		i.posY -= SPEED * i.sinAngle;
 		if (input[UP]) {
-			i.posY += 5;
+			i.posY += speed;
 		}
 		if (input[DOWN]) {
-			i.posY -= 5;
+			i.posY -= speed;
 		}
 		if (input[LEFT]) {
-			i.posX += 5;
+			i.posX += speed;
 		}
 		if (input[RIGHT]) {
-			i.posX -= 5;
+			i.posX -= speed;
 		}
 	}
 	pos_list.remove_if(isOut);
 }
 
+void BasicAttack::levelup() {
+	level += 1;
+	if (level == 2) {
+		gen_cycle *= 0.8;
+	}
+	else if (level == 3) {
+		gen_cycle *= 0.8;
+	}
+	else if (level == 4) {
+		gen_cycle *= 0.8;
+	}
 
-
+}
 void BasicAttack::add_pos(std::list<SDL_Rect> enemies) {
 	//가장 가까운 적 탐색
 	float min_distance = 1234123124.0f;

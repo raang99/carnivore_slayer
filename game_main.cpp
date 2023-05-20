@@ -5,6 +5,7 @@ SDL_Window* window;
 SDL_Renderer* renderer;
 bool g_running;
 int cur_phase;
+int speed = 5;
 int main(int argc, char* argv[]) {
 	Uint32 last_time, cur_time;
 	SDL_Init(SDL_INIT_EVERYTHING);

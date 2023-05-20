@@ -1,7 +1,5 @@
 #include "EnemyManager.h"
-#include "ElectricField.h"
-#include "thunder.h"
-#include "Freeze.h"
+
 
 EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
@@ -23,7 +21,7 @@ void EnemyManager::render() {
 		i->render();
 }
 
-void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Exp*> *exp_list) {
+void EnemyManager::update(int input[5], std::vector<Attack*> *attack, std::list<Exp*> *exp_list) {
 	gen_timer -= 33;
 	if (gen_timer < 0) {
 		for (int i = 0; i < gen_quantity; i++)
@@ -49,16 +47,19 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Ex
 
 	list.remove_if(isDead);
 
-	std::list<Attack*>::iterator iter = attack->begin();
+	std::vector<Attack*>::iterator iter = attack->begin();
 	for (; iter != attack->end(); ++iter) {
 		if ((*iter)->skill_type == SkillType::ElectricField) {
 			dynamic_cast<ElectricField*>((*iter))->ClearPos();
 		}
-		/*else if ((*iter)->skill_type == SkillType::Thunder) {
+		else if ((*iter)->skill_type == SkillType::Thunder) {
 			dynamic_cast<Thunder*>((*iter))->ClearPos();
-		}*/
+		}
 		else if ((*iter)->skill_type == SkillType::Freeze) {
 			dynamic_cast<Freeze*>((*iter))->ClearPos();
+		}
+		else if ((*iter)->skill_type == SkillType::HornAttack) {
+			dynamic_cast<HornAttack*>((*iter))->ClearPos();
 		}
 	}
 }

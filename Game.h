@@ -13,7 +13,6 @@
 #include <atlstr.h>
 #include <vector>
 
-
 #define UP 0x0
 #define DOWN 0x1
 #define LEFT 0x2
@@ -36,6 +35,7 @@ void InitGame();
 extern bool g_running;
 extern SDL_Renderer* renderer;
 extern int cur_phase;
+extern int speed;
 
 struct Pos {
 	float posX, posY;
@@ -58,6 +58,7 @@ public:
 enum class SkillType {
 	Default,
 	BasicAttack,
+	HornAttack,
 	ElectricField,
 	Thunder,
 	Freeze
@@ -71,6 +72,8 @@ public:
 	virtual void update(std::list<SDL_Rect> enemies, int input[5]) = 0;
 	virtual void render() = 0;
 	virtual int get_damage() = 0;
+	virtual void levelup() = 0;
+	int level = 0;
 	std::list<Pos> pos_list;
 	SkillType skill_type = SkillType::Default;
 };

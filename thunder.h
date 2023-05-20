@@ -11,6 +11,7 @@ public:
 	void render()override;
 	void update(std::list<SDL_Rect> enemies, int input[5])override;
 	int get_damage()override;
+	void levelup() override;
 	void add_pos();
 	
 	bool stateoff;
@@ -18,7 +19,7 @@ public:
 
 
 private:
-	double gen_timer, gen_cycle;
+	float gen_timer, gen_cycle;
 	
 	int gen_quantity;
 	SDL_Texture* texture_;

@@ -17,6 +17,7 @@ User::User() {
 	texture[LEFT] = new Sprite(renderer, "Resource/user/left.png", 12, 200);
 	texture[RIGHT] = new Sprite(renderer, "Resource/user/right.png", 12, 200);
 	direct = DOWN;
+	search_rect = drect_;
 }
 
 User::~User() {
@@ -45,30 +46,40 @@ void User::render() {
 }
 
 void User::update(int input[5]) {
+	heal_delay -= 33;
+	if (heal_delay < 0) {
+		if (cur_hp < max_hp) {
+			cur_hp += heal_point;
+			if (cur_hp > max_hp)
+				cur_hp = max_hp;
+		}
+		heal_delay = 1000.0f;
+	}
 	set_direct(input);
 	for(int i = 0; i < 4; i++)
 		texture[i]->Update();
 
 	if (input[UP]) {
-		yPos -= 5;
+		yPos -= speed;
 	}
 	if (input[DOWN]) {
-		yPos += 5;
+		yPos += speed;
 	}
 	if (input[LEFT]) {
-		xPos -= 5;
+		xPos -= speed;
 	}
 	if (input[RIGHT]) {
-		xPos += 5;
+		xPos += speed;
 	}
 	//level up
 	if (cur_exp >= max_exp) {
+		levelup_flag = true;
 		cur_exp = 0;
-		max_exp *= 1.2;
+		max_exp *= 1.1;
 	}
 }
 
-void User::add_exp(int exp) {
+void User::add_exp() {
 	cur_exp += exp;
 }
 
@@ -92,4 +103,28 @@ void User::set_direct(int input[5]) {
 		direct = LEFT;
 	else if (!input[UP] && !input[DOWN] && !input[LEFT] && input[RIGHT])
 		direct = RIGHT;
+}
+
+void User::hp_max() {
+	max_hp *= 1.1;
+}
+
+void User::heal() {
+	heal_point += 5.0f;
+}
+
+void User::speed_up() {
+	speed += 1;
+}
+
+void User::search() {
+	search_rect.x -= 20;
+	search_rect.y -= 20;
+	search_rect.w += 40;
+	search_rect.h += 40;
+}
+
+void User::growth() {
+	exp *= 1.1;
+	printf("exp : %f\n", exp);
 }

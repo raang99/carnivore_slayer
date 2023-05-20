@@ -11,10 +11,12 @@ public:
 	void render()override;
 	void update(std::list<SDL_Rect> enemies, int input[5])override;
 	int get_damage()override;
+	void levelup() override;
 	void add_pos(std::list<SDL_Rect> enemies);
-	bool collider(Pos e);
-	
-	bool state;
+
+	bool m_bSkilloff;
+	bool run_flag;
+	void ClearPos() { pos_list.clear(); m_bSkilloff = true; };
 
 
 private:

@@ -77,16 +77,16 @@ void Enemy::update(int input[5]) {
 	}
 
 	if (input[UP]) {
-		posY_ += 5;
+		posY_ += speed;
 	}
 	if (input[DOWN]) {
-		posY_ -= 5;
+		posY_ -= speed;
 	}
 	if (input[LEFT]) {
-		posX_ += 5;
+		posX_ += speed;
 	}
 	if (input[RIGHT]) {
-		posX_ -= 5;
+		posX_ -= speed;
 	}
 	// 각도 계산
 	angle_ = std::atan2(dy, dx) * 180.0f / M_PI;
@@ -128,16 +128,16 @@ void Exp::render() {
 
 void Exp::update(int input[5]) {
 	if (input[UP]) {
-		posY_ += 5;
+		posY_ += speed;
 	}
 	if (input[DOWN]) {
-		posY_ -= 5;
+		posY_ -= speed;
 	}
 	if (input[LEFT]) {
-		posX_ += 5;
+		posX_ += speed;
 	}
 	if (input[RIGHT]) {
-		posX_ -= 5;
+		posX_ -= speed;
 	}
 }
 

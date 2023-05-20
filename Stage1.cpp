@@ -11,8 +11,10 @@ Stage1::Stage1() {
 	}
 	{//attack
 	attack_list.push_back(new BasicAttack());
-	//attack_list.push_back(new ElectricField());
+	attack_list.push_back(new HornAttack());
+	attack_list.push_back(new ElectricField());
 	attack_list.push_back(new Freeze());
+	attack_list.push_back(new Thunder());
 	}
 	time = new TTF("Resource/arial.ttf", 40);
 }
@@ -20,6 +22,14 @@ Stage1::~Stage1() {
 }
 
 void Stage1::HandleEvents() {
+	if (user_.levelup_flag) {
+		sk_ch.handleEvents(&user_, &attack_list);
+		if (!user_.levelup_flag) {
+			for (int i = 0; i < 5; i++)
+				input[i] = 0;
+		}
+		return;
+	}
 	SDL_Event event;
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
@@ -71,17 +81,19 @@ void Stage1::HandleEvents() {
 }
 
 void Stage1::Update() {
+	if (user_.levelup_flag) 
+		return;
 	g_elapsed_time_ms += 33;
 	std::list<SDL_Rect> enemy_drect_list = enemy.get_drect_list();
-	//user_hitted(enemy_drect_list);
+	user_hitted(enemy_drect_list);
 	user_.update(input);
 	for (auto& i : attack_list) {
 		i->update(enemy_drect_list, input);
 	}
 	for (auto it = exp_list.begin(); it != exp_list.end();) {
 		(*it)->update(input);
-		if (isOverlap(user_.drect_, (*it)->get_drect())) {
-			user_.add_exp(10);
+		if (isOverlap(user_.search_rect, (*it)->get_drect())) {
+			user_.add_exp();
 			(*it)->~Exp();
 			exp_list.erase(it);
 		}
@@ -92,6 +104,10 @@ void Stage1::Update() {
 }
 
 void Stage1::Render() {
+	if (user_.levelup_flag) {
+		sk_ch.render(&user_, &attack_list);
+		return;
+	}
 	map_.setCamera(user_.xPos, user_.yPos);
 	map_.render();
 	user_.render();

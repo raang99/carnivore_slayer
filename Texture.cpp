@@ -21,7 +21,7 @@ Texture::~Texture() {
 }
 
 void Texture::render() {
-	SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
+	SDL_RenderCopy(renderer, texture_, nullptr, &drect_);
 }
 
 void Texture::set_drect(int x, int y, int w, int h) {

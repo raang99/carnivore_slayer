@@ -1,25 +1,8 @@
-﻿  BasicAttack.cpp
-C:\Users\hsy25\source\carnivore_slayer\BasicAttack.cpp(86,42): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ElectricField.cpp
-  Enemy.cpp
-C:\Users\hsy25\source\carnivore_slayer\Enemy.cpp(66,39): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  EnemyManager.cpp
-C:\Users\hsy25\source\carnivore_slayer\EnemyManager.cpp(46,43): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\hsy25\source\carnivore_slayer\EnemyManager.cpp(46,33): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Game.cpp
-  Intro.cpp
-  Map.cpp
-  SkillChoice.cpp
-  Sprite.cpp
-  Stage1.cpp
-  TTF.cpp
-  Texture.cpp
-  User.cpp
-C:\Users\hsy25\source\carnivore_slayer\User.cpp(67,17): warning C4305: '*=': 'double'에서 'float'(으)로 잘립니다.
-  game_main.cpp
+﻿  HornAttack.cpp
+C:\Users\hsy25\source\carnivore_slayer\HornAttack.cpp(99,42): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다.
-  4 of 646 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  1 of 673 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    5 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
   carnivore_slayer.vcxproj -> C:\Users\hsy25\source\carnivore_slayer\x64\Release\carnivore_slayer.exe

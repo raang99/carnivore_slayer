@@ -31,13 +31,17 @@ Freeze::~Freeze() {
 }
 
 void Freeze::render() {
+	if (level < 1)
+		return;
 	if (freezeOn)
 		SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
 }
 
 void Freeze::update(std::list<SDL_Rect> enemies, int input[5]) {
+	if (level < 1)
+		return;
 	if (m_bSkilloff) {
-		gen_timer -= 20;
+		gen_timer -= 33;
 		if (gen_timer < 0) {
 			gen_timer = gen_cycle;
 			freezeOn = true;
@@ -47,23 +51,39 @@ void Freeze::update(std::list<SDL_Rect> enemies, int input[5]) {
 	}
 
 	if (freezeOn) {
-		if (gen_timer < 4500)
+		if (gen_timer < gen_cycle*0.8)
 			freezeOn = false;
 	}
 
 	for (auto& i : pos_list) {
 		if (input[UP]) {
-			i.posY += 5;
+			i.posY += speed;
 		}
 		if (input[DOWN]) {
-			i.posY -= 5;
+			i.posY -= speed;
 		}
 		if (input[LEFT]) {
-			i.posX += 5;
+			i.posX += speed;
 		}
 		if (input[RIGHT]) {
-			i.posX -= 5;
+			i.posX -= speed;
 		}
+	}
+}
+
+void Freeze::levelup() {
+	level += 1;
+	if (level == 2) {
+		gen_cycle *= 0.8;
+	}
+	else if (level == 3) {
+		drect_.x -= 50;
+		drect_.y -= 50;
+		drect_.w += 100;
+		drect_.h += 100;
+	}
+	else if (level == 4) {
+		gen_cycle *= 0.8;
 	}
 }
 

@@ -9,7 +9,7 @@
 #include "EnemyManager.h"
 #include "BasicAttack.h"
 #include "ElectricField.h"
-#include "thunder.h"
+#include "Thunder.h"
 #include "Freeze.h"
 #include "SkillChoice.h"
 
@@ -35,7 +35,7 @@ private:
 	Map map_;
 	EnemyManager enemy;
 	SkillChoice sk_ch;
-	std::list<Attack*> attack_list;
+	std::vector<Attack*> attack_list;
 	std::list<Exp*> exp_list;
 	Texture *plain, *background;
 	Bullet *bullet;

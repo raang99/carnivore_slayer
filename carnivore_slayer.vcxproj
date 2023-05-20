@@ -24,12 +24,14 @@
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Freeze.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="HornAttack.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="SkillChoice.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Thunder.h" />
     <ClInclude Include="tide.h" />
     <ClInclude Include="TTF.h" />
     <ClInclude Include="User.h" />
@@ -43,6 +45,7 @@
     <ClCompile Include="Freeze.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="game_main.cpp" />
+    <ClCompile Include="HornAttack.cpp" />
     <ClCompile Include="Intro.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="SkillChoice.cpp" />
@@ -51,6 +54,7 @@
     <ClCompile Include="test.cpp" />
     <ClCompile Include="test2.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Thunder.cpp" />
     <ClCompile Include="tide.cpp" />
     <ClCompile Include="TTF.cpp" />
     <ClCompile Include="User.cpp" />

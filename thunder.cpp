@@ -6,7 +6,7 @@ Thunder::Thunder()
 	SDL_Surface* sheet_surface;
 	sheet_surface = IMG_Load("Resource/thunder.png");
 	if (!sheet_surface) {
-		std::cout << "image file " << "Resource/b.png" << "(open error)" << std::endl;
+		std::cout << "image file " << "Resource/thunder.png" << "(open error)" << std::endl;
 		exit(0);
 	}
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
@@ -15,11 +15,10 @@ Thunder::Thunder()
 	d_rect = { 0,0,30,30 };
 	s_cen = { 15,15 };
 	gen_timer = 1000.0f;
-	gen_cycle = 1000.0f;
+	gen_cycle = gen_timer;
 	gen_quantity = 1;
 	damage = 20;
 	
-
 	skill_type = SkillType::Thunder;
 
 
@@ -30,8 +29,10 @@ Thunder::~Thunder() {
 }
 
 void Thunder::update(std::list<SDL_Rect> enemies, int input[5]) {
+	if (level < 1)
+		return;
 	if (stateoff) {
-		gen_timer -= 250;
+		gen_timer -= 33;
 		if (gen_timer < 0) {
 			gen_timer = gen_cycle;
 			add_pos();
@@ -41,7 +42,22 @@ void Thunder::update(std::list<SDL_Rect> enemies, int input[5]) {
 }
 
 void Thunder::render() {
+	if (level < 1)
+		return;
 	SDL_RenderCopy(renderer, texture_, &s_rect, &d_rect);
+}
+
+void Thunder::levelup() {
+	level += 1;
+	if (level == 2) {
+		gen_cycle *= 0.7;
+	}
+	else if (level == 3) {
+		gen_cycle *= 0.7;
+	}
+	else if (level == 4) {
+		gen_cycle *= 0.7;
+	}
 }
 
 void Thunder::add_pos() {

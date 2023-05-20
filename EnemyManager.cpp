@@ -2,6 +2,7 @@
 #include "ElectricField.h"
 #include "thunder.h"
 #include "Freeze.h"
+#include "Tide.h"
 
 EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
@@ -23,7 +24,7 @@ void EnemyManager::render() {
 		i->render();
 }
 
-void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Exp*> *exp_list) {
+void EnemyManager::update(int input[5], std::list<Attack*>* attack, std::list<Exp*>* exp_list) {
 	gen_timer -= 33;
 	if (gen_timer < 0) {
 		for (int i = 0; i < gen_quantity; i++)
@@ -37,9 +38,20 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Ex
 
 		for (auto& a : *attack) {
 			if (isHitted(i, a)) {
-				hp = i->get_hp();
-				hp -= a->get_damage(); //damage;
-				i->set_hp(hp);
+				if (!i->isTideAttacked) {
+					hp = i->get_hp();
+					hp -= a->get_damage(); //damage;
+					i->set_hp(hp);
+					if (a->skill_type == SkillType::Tide) {
+						i->isThrusted = false;
+					}
+				}
+				if (a->skill_type == SkillType::Tide) {
+					if (i->flag) {
+						i->isTideAttacked = true;
+						i->flag = false;
+					}
+				}
 			}
 		}
 
@@ -54,9 +66,9 @@ void EnemyManager::update(int input[5], std::list<Attack*> *attack, std::list<Ex
 		if ((*iter)->skill_type == SkillType::ElectricField) {
 			dynamic_cast<ElectricField*>((*iter))->ClearPos();
 		}
-		/*else if ((*iter)->skill_type == SkillType::Thunder) {
+		else if ((*iter)->skill_type == SkillType::Thunder) {
 			dynamic_cast<Thunder*>((*iter))->ClearPos();
-		}*/
+		}
 		else if ((*iter)->skill_type == SkillType::Freeze) {
 			dynamic_cast<Freeze*>((*iter))->ClearPos();
 		}
@@ -84,6 +96,9 @@ bool isHitted(Enemy* e, Attack* Attack)
 			}
 			if (Attack->skill_type == SkillType::Freeze) {
 				e->isFrozen = true;
+			}
+			else {
+				e->isHit = true;
 			}
 			return true;
 		}
@@ -114,6 +129,7 @@ bool isMultiattack(Attack* Attack) {
 	case SkillType::ElectricField:
 	case SkillType::Thunder:
 	case SkillType::Freeze:
+	case SkillType::Tide:
 		return true;
 	default:
 		return false;

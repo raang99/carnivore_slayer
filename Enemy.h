@@ -15,11 +15,17 @@ public:
 	void set_hp(int hp);
 	float posX_, posY_;
 	bool isFrozen;
+	bool isTideAttacked;
+	bool flag;
+	bool isThrusted;
+	bool isHit;
 private:
 	SDL_Texture* texture_;
 	float angle_;
 	int hp_ = 20;
-	float unfreeze_timer = 500.f;
+	float unfreeze_timer = 3000.f;
+	float attacked_timer = 2000.f;
+	float hit_timer = 250.f;
 };
 
 class Exp {

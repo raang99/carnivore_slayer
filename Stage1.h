@@ -11,6 +11,7 @@
 #include "ElectricField.h"
 #include "thunder.h"
 #include "Freeze.h"
+#include "Tide.h"
 #include "SkillChoice.h"
 
 #define MAX_X 800
@@ -49,5 +50,4 @@ private:
 	TTF* time;
 	Mix_Music* bg_sound;
 	Mix_Chunk* gun_sound;
-
 };

@@ -11,8 +11,10 @@ Stage1::Stage1() {
 	}
 	{//attack
 	attack_list.push_back(new BasicAttack());
-	//attack_list.push_back(new ElectricField());
+	attack_list.push_back(new ElectricField());
 	attack_list.push_back(new Freeze());
+	attack_list.push_back(new Thunder());
+	attack_list.push_back(new Tide());
 	}
 	time = new TTF("Resource/arial.ttf", 40);
 }

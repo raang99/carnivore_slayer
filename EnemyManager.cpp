@@ -1,6 +1,5 @@
 #include "EnemyManager.h"
 
-
 EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
 		list.push_back(new Enemy());
@@ -35,9 +34,20 @@ void EnemyManager::update(int input[5], std::vector<Attack*> *attack, std::list<
 
 		for (auto& a : *attack) {
 			if (isHitted(i, a)) {
-				hp = i->get_hp();
-				hp -= a->get_damage(); //damage;
-				i->set_hp(hp);
+				if (!i->isTideAttacked) {
+					hp = i->get_hp();
+					hp -= a->get_damage(); //damage;
+					i->set_hp(hp);
+					if (a->skill_type == SkillType::Tide) {
+						i->isThrusted = false;
+					}
+				}
+				if (a->skill_type == SkillType::Tide) {
+					if (i->flag) {
+						i->isTideAttacked = true;
+						i->flag = false;
+					}
+				}
 			}
 		}
 
@@ -86,6 +96,9 @@ bool isHitted(Enemy* e, Attack* Attack)
 			if (Attack->skill_type == SkillType::Freeze) {
 				e->isFrozen = true;
 			}
+			else {
+				e->isHit = true;
+			}
 			return true;
 		}
 	}
@@ -103,10 +116,10 @@ bool isDead(Enemy* e) {
 
 bool isOverlap(SDL_Rect rect1, SDL_Rect rect2) {
 	if (rect1.x < rect2.x + rect2.w && rect1.x + rect1.w > rect2.x && rect1.y < rect2.y + rect2.h && rect1.y + rect1.h > rect2.y) {
-		// °ãÄ¡´Â ºÎºÐÀÌ ÀÖÀ½
+		// ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		return true;
 	}
-	// °ãÄ¡´Â ºÎºÐÀÌ ¾øÀ½
+	// ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	return false;
 }
 
@@ -115,6 +128,7 @@ bool isMultiattack(Attack* Attack) {
 	case SkillType::ElectricField:
 	case SkillType::Thunder:
 	case SkillType::Freeze:
+	case SkillType::Tide:
 		return true;
 	default:
 		return false;

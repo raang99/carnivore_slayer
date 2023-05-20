@@ -3,8 +3,7 @@
 #include "Freeze.h"
 
 Enemy::Enemy()
-	:isFrozen(false)
-
+	:isFrozen(false), isTideAttacked(false), flag(true), isThrusted(false), isHit(false)
 {
 	posX_ = static_cast<float>(rand() % SCREEN_WIDTH);
 	if (posX_ < SCREEN_CENTER_X) {
@@ -41,14 +40,20 @@ Enemy::~Enemy() {
 
 void Enemy::render() {
 	SDL_Rect objectRect = { static_cast<int>(posX_), static_cast<int>(posY_), OBJECT_SIZE, OBJECT_SIZE };
-	
+
 	if (isFrozen) {
 		SDL_SetTextureColorMod(texture_, 100, 100, 255);
 		SDL_SetTextureAlphaMod(texture_, 255);
 	}
 	else {
-		SDL_SetTextureColorMod(texture_, 255, 255, 255);
-		SDL_SetTextureAlphaMod(texture_, 255);
+		if (isHit) {
+			SDL_SetTextureColorMod(texture_, 255, 50, 50);
+			SDL_SetTextureAlphaMod(texture_, 255);
+		}
+		else {
+			SDL_SetTextureColorMod(texture_, 255, 255, 255);
+			SDL_SetTextureAlphaMod(texture_, 255);
+		}
 	}
 
 	SDL_RenderCopyEx(renderer, texture_, nullptr, &objectRect, angle_, nullptr, SDL_FLIP_NONE);
@@ -63,17 +68,39 @@ void Enemy::update(int input[5]) {
 	float sinAngle = dy / distance;
 
 	if (isFrozen) {
-		unfreeze_timer -= 5.f;
+		unfreeze_timer -= 33.f;
 		posX_ += OBJECT_SPEED * cosAngle * 0.3;
 		posY_ += OBJECT_SPEED * sinAngle * 0.3;
 		if (unfreeze_timer < 0.f) {
 			isFrozen = false;
-			unfreeze_timer = 500.f;
+			unfreeze_timer = 3000.f;
 		}
 	}
 	else {
 		posX_ += OBJECT_SPEED * cosAngle;
 		posY_ += OBJECT_SPEED * sinAngle;
+	}
+
+	if (isTideAttacked) {
+		attacked_timer -= 33.f;
+		if (attacked_timer < 0.f) {
+			isTideAttacked = false;
+			flag = true;
+			attacked_timer = 2000.f;
+		}
+		if (!isThrusted) {
+			posX_ -= OBJECT_SPEED * cosAngle * 100;
+			posY_ -= OBJECT_SPEED * sinAngle * 100;
+		}
+		isThrusted = true;
+	}
+
+	if (isHit) {
+		hit_timer -= 33.f;
+		if (hit_timer < 0.f) {
+			isHit = false;
+			hit_timer = 250.f;
+		}
 	}
 
 	if (input[UP]) {

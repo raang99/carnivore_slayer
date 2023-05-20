@@ -61,7 +61,8 @@ enum class SkillType {
 	HornAttack,
 	ElectricField,
 	Thunder,
-	Freeze
+	Freeze,
+	Tide
 };
 
 class Attack

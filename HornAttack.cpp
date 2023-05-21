@@ -33,7 +33,6 @@ void HornAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 		if (gen_timer < 0) {
 			gen_timer = gen_cycle;
 			run_flag = true;
-			printf("test1\n");
 			add_pos(enemies);
 			m_bSkilloff = false;
 		}
@@ -41,7 +40,6 @@ void HornAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 
 	if (run_flag) {
 		if (gen_timer < gen_cycle * 0.8) {
-			printf("test2\n");
 			run_flag = false;
 		}
 	}
@@ -66,7 +64,6 @@ void HornAttack::render() {
 	if (level < 1)
 		return;
 	for (auto& i : pos_list) {
-		printf("test3\n");
 		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), 20, 100 };
 		SDL_RenderCopyEx(renderer, texture_, &s_rect, &i.objectRect, i.angle, &s_cen, SDL_FLIP_VERTICAL);
 	}

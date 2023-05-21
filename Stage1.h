@@ -38,6 +38,7 @@ private:
 	SkillChoice sk_ch;
 	std::vector<Attack*> attack_list;
 	std::list<Exp*> exp_list;
+	std::list<Sprite*> effect_list;
 	Texture *plain, *background;
 	Bullet *bullet;
 	SDL_Texture* sheet_texture, * b_texture, * back_texture, * score, * point_texture;

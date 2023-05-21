@@ -24,6 +24,7 @@ Freeze::Freeze()
 	damage = 10;
 
 	skill_type = SkillType::Freeze;
+	//level = 1;
 }
 
 Freeze::~Freeze() {
@@ -33,8 +34,11 @@ Freeze::~Freeze() {
 void Freeze::render() {
 	if (level < 1)
 		return;
-	if (freezeOn)
+	if (freezeOn) {
+		float alpha = (gen_timer - (gen_cycle * 0.8)) / (gen_cycle - (gen_cycle * 0.8));
+		SDL_SetTextureAlphaMod(texture_, static_cast<Uint8>(alpha * 255));
 		SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
+	}
 }
 
 void Freeze::update(std::list<SDL_Rect> enemies, int input[5]) {
@@ -51,6 +55,7 @@ void Freeze::update(std::list<SDL_Rect> enemies, int input[5]) {
 	}
 
 	if (freezeOn) {
+		int duration = gen_cycle - gen_cycle * 0.8;
 		if (gen_timer < gen_cycle*0.8)
 			freezeOn = false;
 	}

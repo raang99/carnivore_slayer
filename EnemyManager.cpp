@@ -4,9 +4,9 @@ EnemyManager::EnemyManager() {
 	for (int i = 0; i < 5; i++) {
 		list.push_back(new Enemy());
 	}
-	gen_cycle = 3000.0f;
+	gen_cycle = 5000.0f;
 	gen_timer = gen_cycle;
-	gen_quantity = 4;
+	gen_quantity = 5;
 }
 
 EnemyManager::~EnemyManager() {
@@ -18,15 +18,19 @@ EnemyManager::~EnemyManager() {
 void EnemyManager::render() {
 	for (auto& i : list)
 		i->render();
+	dead_enemies.render();
 }
 
-void EnemyManager::update(int input[5], std::vector<Attack*> *attack, std::list<Exp*> *exp_list) {
+void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<Exp*>* exp_list) {
 	gen_timer -= 33;
 	if (gen_timer < 0) {
 		for (int i = 0; i < gen_quantity; i++)
 			list.push_back(new Enemy());
 		gen_timer = gen_cycle;
 	}
+
+	dead_enemies.update(input);
+
 	int hp;
 	for (auto& i : list) {
 		i->update(input);
@@ -51,8 +55,10 @@ void EnemyManager::update(int input[5], std::vector<Attack*> *attack, std::list<
 			}
 		}
 
-		if (hp <= 0)
+		if (hp <= 0) {
+			dead_enemies.add(0, i->posX_, i->posY_);
 			exp_list->push_back(new Exp(i->posX_, i->posY_));
+		}
 	}
 
 	list.remove_if(isDead);

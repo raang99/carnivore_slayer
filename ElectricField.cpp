@@ -24,6 +24,7 @@ ElectricField::ElectricField()
 	damage = 5;
 
 	skill_type = SkillType::ElectricField;
+	//level = 1;
 }
 
 ElectricField::~ElectricField() {

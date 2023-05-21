@@ -21,7 +21,7 @@ Thunder::Thunder()
 	
 	skill_type = SkillType::Thunder;
 
-
+	level = 1;
 }
 
 Thunder::~Thunder() {
@@ -44,7 +44,10 @@ void Thunder::update(std::list<SDL_Rect> enemies, int input[5]) {
 void Thunder::render() {
 	if (level < 1)
 		return;
-	SDL_RenderCopy(renderer, texture_, &s_rect, &d_rect);
+	/*float alpha = gen_timer / gen_cycle;
+	printf("%f\n", alpha);
+	SDL_SetTextureAlphaMod(texture_, static_cast<Uint8>(alpha * 255));*/
+	SDL_RenderCopy(renderer, texture_, nullptr, &d_rect);
 }
 
 void Thunder::levelup() {

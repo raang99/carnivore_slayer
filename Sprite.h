@@ -8,11 +8,12 @@ public:
 
     void Update();
     void Render(SDL_Renderer* renderer, int x, int y);
+    void setColor(SDL_Renderer* renderer, SDL_Color color);
+    int frameCount_;
+    int currentFrame_;
 
 private:
     SDL_Texture* texture_;
-    int frameCount_;
-    int currentFrame_;
     int animationSpeed_;
     int frameWidth_;
     int frameHeight_;

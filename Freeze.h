@@ -24,4 +24,5 @@ private:
 	SDL_Texture* texture_;
 	SDL_Rect srect_;
 	int damage;
+	int alpha;
 };

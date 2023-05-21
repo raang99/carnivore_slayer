@@ -11,8 +11,8 @@ Tide::Tide() {
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
 	srect_ = { 287, 43, 205, 513 };
-	gen_timer = 10000.0f;
-	gen_cycle = 10000.0f;
+	gen_timer = 5000.0f;
+	gen_cycle = gen_timer;
 	damage = 10;
 
 	skill_type = SkillType::Tide;
@@ -23,6 +23,8 @@ Tide::~Tide() {
 }
 
 void Tide::render() {
+	if (level < 1)
+		return;
 	for (auto& i : pos_list) {
 		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), 205, 513 };
 		SDL_RenderCopyEx(renderer, texture_, &srect_, &i.objectRect, i.angle, nullptr, SDL_FLIP_HORIZONTAL);
@@ -39,6 +41,8 @@ bool isOut2(Pos& b) {
 }
 
 void Tide::update(std::list<SDL_Rect> enemies, int input[5]) {
+	if (level < 1)
+		return;
 	gen_timer -= 33.f;
 	if (gen_timer < 0) {
 		gen_timer = gen_cycle;
@@ -91,4 +95,8 @@ void Tide::add_pos(std::list<SDL_Rect> enemies) {
 
 int Tide::get_damage() {
 	return damage;
+}
+
+void Tide::levelup() {
+	level += 1;
 }

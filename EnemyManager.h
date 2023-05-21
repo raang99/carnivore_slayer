@@ -5,7 +5,8 @@
 #include "thunder.h"
 #include "Freeze.h"
 #include "HornAttack.h"
-
+#include "Sprite.h"
+#include "EffectManager.h"
 class EnemyManager {
 public:
 	EnemyManager();
@@ -17,6 +18,7 @@ public:
 private:
 	std::list<Enemy*> list;
 	std::list<Exp*> exp_list;
+	EffectManager dead_enemies;
 	double gen_timer, gen_cycle;
 	int gen_quantity;
 };

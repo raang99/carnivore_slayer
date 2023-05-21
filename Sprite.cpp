@@ -42,3 +42,8 @@ void Sprite::Render(SDL_Renderer* renderer, int x, int y)
     SDL_Rect destRect = { x, y, frameWidth_, frameHeight_ };
     SDL_RenderCopy(renderer, texture_, &srcRect, &destRect);
 }
+
+void Sprite::setColor(SDL_Renderer* renderer, SDL_Color color) {
+    SDL_SetTextureColorMod(texture_, color.r, color.g, color.b);
+    SDL_SetTextureAlphaMod(texture_, color.a);
+}

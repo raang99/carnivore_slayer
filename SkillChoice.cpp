@@ -18,9 +18,9 @@ SkillChoice::SkillChoice() {
     images[SPEED] = new Texture("Resource/skills/speed.png");
     wcscpy_s(SKILL_EXPLAIN[SPEED][0], L"이동속도 증가");
     images[SEARCH] = new Texture("Resource/skills/search.png");
-    wcscpy_s(SKILL_EXPLAIN[SEARCH][0], L"아이템습득범위 10%증가");
+    wcscpy_s(SKILL_EXPLAIN[SEARCH][0], L"아이템습득범위 증가");
     images[GROWTH] = new Texture("Resource/skills/growth.png");
-    wcscpy_s(SKILL_EXPLAIN[GROWTH][0], L"경험치습득량 10%증가");
+    wcscpy_s(SKILL_EXPLAIN[GROWTH][0], L"경험치습득량 증가");
     images[BASIC] = new Texture("Resource/skills/basic.png");
     wcscpy_s(SKILL_EXPLAIN[BASIC][1], L"쿨타임 20% 감소");
     wcscpy_s(SKILL_EXPLAIN[BASIC][2], L"투사체 1개 증가");

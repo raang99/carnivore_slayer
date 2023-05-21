@@ -25,48 +25,47 @@ Enemy::Enemy()
 		printf("이미지 파일 로드 실패: %s\n", IMG_GetError());
 		exit(-1);
 	}
-	texture_ = SDL_CreateTextureFromSurface(renderer, surface);
-	if (texture_ == nullptr) {
-		printf("텍스처 생성 실패: %s\n", SDL_GetError());
-		exit(-1);
-	}
+
+	texture[right] = new Sprite(renderer, "Resource/enemy/right.png", 11, ani_speed);
+	texture[left] = new Sprite(renderer, "Resource/enemy/left.png", 11, ani_speed);
 	SDL_FreeSurface(surface);
 
 }
 
 Enemy::~Enemy() {
-	SDL_DestroyTexture(texture_);
+	for (int i = 0; i < 2; i++)
+		texture[i]->~Sprite();
 }
 
 void Enemy::render() {
-	SDL_Rect objectRect = { static_cast<int>(posX_), static_cast<int>(posY_), OBJECT_SIZE, OBJECT_SIZE };
-
 	if (isFrozen) {
-		SDL_SetTextureColorMod(texture_, 100, 100, 255);
-		SDL_SetTextureAlphaMod(texture_, 255);
+		texture[direct]->setColor(renderer, { 100,100,255,255 });
 	}
 	else {
 		if (isHit) {
-			SDL_SetTextureColorMod(texture_, 255, 50, 50);
-			SDL_SetTextureAlphaMod(texture_, 255);
+			texture[direct]->setColor(renderer,{ 255,50,50,255 });
 		}
 		else {
-			SDL_SetTextureColorMod(texture_, 255, 255, 255);
-			SDL_SetTextureAlphaMod(texture_, 255);
+			texture[direct]->setColor(renderer, { 255,255,255,255 });
 		}
 	}
 
-	SDL_RenderCopyEx(renderer, texture_, nullptr, &objectRect, angle_, nullptr, SDL_FLIP_NONE);
+	texture[direct]->Render(renderer, static_cast<int>(posX_), static_cast<int>(posY_));
 }
 
 void Enemy::update(int input[5]) {
 	// 삼각비를 이용한 이동
-	float dx = SCREEN_CENTER_X - posX_;
-	float dy = SCREEN_CENTER_Y - posY_;
+	float dx = (SCREEN_CENTER_X-50) - posX_;
+	float dy = (SCREEN_CENTER_Y-30) - posY_;
 	float distance = std::sqrt(dx * dx + dy * dy);
 	float cosAngle = dx / distance;
 	float sinAngle = dy / distance;
-
+	if (cosAngle < 0) 
+		direct = left;
+	else 
+		direct = right;
+	texture[direct]->Update();
+	
 	if (isFrozen) {
 		unfreeze_timer -= 33.f;
 		posX_ += OBJECT_SPEED * cosAngle * 0.3;

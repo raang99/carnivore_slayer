@@ -14,7 +14,7 @@ BasicAttack::BasicAttack() {
 	gen_cycle = 1000.0f;
 	gen_quantity = 1;
 	damage = 20;
-	level = 1;
+	//level = 1;
 }
 
 BasicAttack::~BasicAttack() {

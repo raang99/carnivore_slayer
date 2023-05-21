@@ -1,8 +1,9 @@
 #pragma once
 #include "Game.h"
+#include "Sprite.h"
+#include "Freeze.h"
 const int OBJECT_SIZE = 40;
 const float OBJECT_SPEED = 2.0f;
-
 
 class Enemy {
 public:
@@ -20,12 +21,16 @@ public:
 	bool isThrusted;
 	bool isHit;
 private:
-	SDL_Texture* texture_;
+	int ani_speed = 80;
 	float angle_;
 	int hp_ = 20;
 	float unfreeze_timer = 3000.f;
 	float attacked_timer = 2000.f;
 	float hit_timer = 250.f;
+	const int left = 0;
+	const int right = 1;
+	Sprite* texture[2];
+	int direct;
 };
 
 class Exp {
@@ -38,4 +43,5 @@ public:
 	int posX_, posY_;
 private:
 	SDL_Texture* texture_;
+	
 };

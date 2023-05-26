@@ -12,7 +12,7 @@ public:
 	void update(std::list<SDL_Rect> enemies, int input[5])override;
 	int get_damage()override;
 	void levelup() override;
-	void add_pos(std::list<SDL_Rect> enemies);
+	void add_pos();
 	
 	bool stateoff, thunderOn;
 	void ClearPos() { pos_list.clear(); stateoff = true; };

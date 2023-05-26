@@ -5,7 +5,6 @@ Thunder::Thunder()
 {
 	s_rect = { 0,0,30,30 };
 	d_rect = { 0,0,50,50 };
-	s_cen = { 15,15 };
 	gen_timer = 1000.0f;
 	gen_cycle = gen_timer;
 	gen_quantity = 1;
@@ -44,7 +43,6 @@ void Thunder::update(std::list<SDL_Rect> enemies, int input[5]) {
 	if (gen_timer < 0) {
 		gen_timer = gen_cycle;
 		add_pos();
-		stateoff = false;
 	}
 	effects.update(input);
 	
@@ -85,14 +83,4 @@ void Thunder::add_pos() {
 int Thunder::get_damage() {
 	//������ �ֱ�
 	return damage;
-}
-
-
-double setRandom(int a) {
-	double rnd = (rand() % a) + SCREEN_CENTER_X - (a/2);
-	return rnd;
-}
-double setRandom2(int a) {
-	double rnd = (rand() % a) + SCREEN_CENTER_Y - (a / 2);
-	return rnd;
 }

@@ -21,6 +21,7 @@ Stage1::Stage1() {
 	stage_end = false;
 	user_dead = false;
 	time_speed = 33;
+	speed = 5;
 }
 
 Stage1::~Stage1() {
@@ -107,7 +108,7 @@ void Stage1::Update() {
 	if (user_.levelup_flag) 
 		return;
 	g_elapsed_time_ms += 33;
-	if (g_elapsed_time_ms > 1000.0 * 60.0 * 10.0 && boss_flag) {
+	if (g_elapsed_time_ms > 1000.0 * 60.0 * 0.1 && boss_flag) {
 		enemy.add_boss();
 		boss_flag = false;
 	}

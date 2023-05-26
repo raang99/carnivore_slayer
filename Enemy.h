@@ -4,7 +4,7 @@
 #include "Freeze.h"
 const int OBJECT_WIDTH = 128;
 const int OBJECT_HEIGHT = 40;
-const float OBJECT_SPEED = 2.0f;
+const float OBJECT_SPEED = 4.0f;
 
 class Enemy {
 public:

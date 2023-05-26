@@ -17,7 +17,7 @@ BasicAttack::BasicAttack() {
 	gen_timer = 1000.0f;
 	gen_cycle = 1000.0f;
 	gen_quantity = 1;
-	damage = 20;
+	damage = 2000;
 	level = 1;
 }
 

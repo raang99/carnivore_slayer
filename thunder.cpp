@@ -1,7 +1,7 @@
 #include "Thunder.h"
 
 Thunder::Thunder()
-	:stateoff(true)
+	:stateoff(true), thunderOn(false)
 {
 	SDL_Surface* sheet_surface;
 	sheet_surface = IMG_Load("Resource/thunder.png");
@@ -12,8 +12,7 @@ Thunder::Thunder()
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
 	s_rect = { 0,0,30,30 };
-	d_rect = { 0,0,30,30 };
-	s_cen = { 15,15 };
+	d_rect = { 0,0,60,60 };
 	gen_timer = 1000.0f;
 	gen_cycle = gen_timer;
 	gen_quantity = 1;
@@ -35,8 +34,30 @@ void Thunder::update(std::list<SDL_Rect> enemies, int input[5]) {
 		gen_timer -= 33;
 		if (gen_timer < 0) {
 			gen_timer = gen_cycle;
-			add_pos();
+			thunderOn = true;
+			add_pos(enemies);
 			stateoff = false;
+		}
+	}
+
+	if (thunderOn) {
+		int duration = gen_cycle - gen_cycle * 0.8;
+		if (gen_timer < gen_cycle * 0.8)
+			thunderOn = false;
+	}
+
+	for (auto& i : pos_list) {
+		if (input[UP]) {
+			i.posY += speed;
+		}
+		if (input[DOWN]) {
+			i.posY -= speed;
+		}
+		if (input[LEFT]) {
+			i.posX += speed;
+		}
+		if (input[RIGHT]) {
+			i.posX -= speed;
 		}
 	}
 }
@@ -44,10 +65,12 @@ void Thunder::update(std::list<SDL_Rect> enemies, int input[5]) {
 void Thunder::render() {
 	if (level < 1)
 		return;
-	/*float alpha = gen_timer / gen_cycle;
-	printf("%f\n", alpha);
-	SDL_SetTextureAlphaMod(texture_, static_cast<Uint8>(alpha * 255));*/
-	SDL_RenderCopy(renderer, texture_, nullptr, &d_rect);
+
+	if (thunderOn) {
+		float alpha = (gen_timer - (gen_cycle * 0.8)) / (gen_cycle - (gen_cycle * 0.8));
+		SDL_SetTextureAlphaMod(texture_, static_cast<Uint8>(alpha * 255));
+		SDL_RenderCopy(renderer, texture_, nullptr, &d_rect);
+	}
 }
 
 void Thunder::levelup() {
@@ -63,13 +86,45 @@ void Thunder::levelup() {
 	}
 }
 
-void Thunder::add_pos() {
+void Thunder::add_pos(std::list<SDL_Rect> enemies) {
 	pos_list.remove(APos);
-	d_rect.x = setRandom(400);
-	d_rect.y = setRandom2(300);
-	APos.posX = d_rect.x;
-	APos.posY = d_rect.y;
-	APos.objectRect = d_rect;
+	std::list<SDL_Rect>::iterator itr;
+	int i = 0;
+	bool click = false;
+	for (itr = enemies.begin(); itr != enemies.end(); itr++) {
+		if (i == setRandom(enemies.size())) {
+			if (itr->x > 0 && itr->x < SCREEN_WIDTH && itr->y > 0 && itr->y <SCREEN_HEIGHT) {
+				d_rect.x = itr->x;
+				d_rect.y = itr->y;
+				APos.posX = d_rect.x;
+				APos.posY = d_rect.y;
+				APos.objectRect = d_rect;
+				click = true;
+				break;
+			}
+		}
+		i++;
+	}
+
+	if (!click) {
+		float min_distance = 1234123124.0f;
+		float min_x = 1234123124.0f, min_y = 1234123124.0f;
+		float dx = 0, dy = 0, distance = 0;
+		for (auto& i : enemies) {
+			dx = SCREEN_CENTER_X - i.x;
+			dy = SCREEN_CENTER_Y - i.y;
+			distance = std::sqrt(dx * dx + dy * dy);
+			if (min_distance > distance) {
+				min_distance = distance;
+				min_x = i.x;
+				min_y = i.y;
+			}
+		}
+		APos.posX = min_x;
+		APos.posY = min_y;
+		APos.objectRect = d_rect;
+	}
+
 	pos_list.push_back(APos);
 }
 
@@ -80,13 +135,7 @@ int Thunder::get_damage() {
 }
 
 
-double setRandom(int a) {
-	double rnd = (rand() % a) + SCREEN_CENTER_X - (a/2);
-	//printf("%f",rnd);
-	return rnd;
-}
-double setRandom2(int a) {
-	double rnd = (rand() % a) + SCREEN_CENTER_Y - (a / 2);
-	//printf("%f", rnd);
-	return rnd;
+int setRandom(int a) {
+	srand(time(NULL));
+	return rand() % a;
 }

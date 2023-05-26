@@ -77,7 +77,7 @@ void ElectricField::levelup() {
 		damage += 10;
 	}
 	else if (level == 4) {
-		gen_cycle *= 0.2;
+		gen_cycle *= 0.8;
 	}
 }
 

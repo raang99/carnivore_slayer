@@ -1,7 +1,8 @@
-#include "EffectManager.h"
+#include "Sprite.h"
 
 EffectManager::EffectManager() {
 	effects[0] = "Resource/enemy/dead.png";
+	effects[1] = "Resource/effect/thunder.png";
 }
 EffectManager::~EffectManager() {
 	for (auto& i : effect_list) {
@@ -38,7 +39,10 @@ void EffectManager::add(int num,int x, int y) {
 	effect tmp;
 	tmp.x = x;
 	tmp.y = y;
-	tmp.effect = new Sprite(renderer, "Resource/enemy/dead.png", 8, 200);
+	if (num == 0) 
+		tmp.effect = new Sprite(renderer, effects[num], 8, 200);
+	else if(num == 1)
+		tmp.effect = new Sprite(renderer, effects[num], 15, 200);
 	effect_list.push_back(tmp);
 }
 bool isEnd(effect e) {

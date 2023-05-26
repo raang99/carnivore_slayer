@@ -16,6 +16,8 @@ public:
 private:
 	double gen_timer, gen_cycle;
 	SDL_Texture* texture_;
+	Sprite* sprite;
 	SDL_Rect srect_;
+	int width, height;
 	int damage;
 };

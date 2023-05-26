@@ -25,4 +25,5 @@ private:
 	SDL_Rect srect_;
 	int damage;
 	int alpha;
+	Mix_Music* sound;
 };

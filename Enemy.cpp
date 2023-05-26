@@ -1,35 +1,37 @@
-#include "Game.h"
 #include "Enemy.h"
-#include "Freeze.h"
 
 Enemy::Enemy()
 	:isFrozen(false), isTideAttacked(false), flag(true), isThrusted(false), isHit(false)
 {
-	posX_ = static_cast<float>(rand() % SCREEN_WIDTH);
-	if (posX_ < SCREEN_CENTER_X) {
-		posX_ -= 200;
-	}
-	else {
-		posX_ += 200;
-	}
-	posY_ = static_cast<float>(rand() % SCREEN_HEIGHT);
-	if (posY_ < SCREEN_CENTER_Y) {
-		posY_ -= 200;
-	}
-	else {
-		posY_ += 200;
+	posX_ = static_cast<float>((rand()- (RAND_MAX / 2)) % (SCREEN_WIDTH * 2));
+	posY_ = static_cast<float>((rand()- (RAND_MAX / 2)) % (SCREEN_HEIGHT * 2));\
+	while (posX_ < SCREEN_CENTER_X + USER_PADDING && posX_ > SCREEN_CENTER_X - USER_PADDING &&
+		posY_ < SCREEN_CENTER_Y + USER_PADDING && posY_ > SCREEN_CENTER_Y - USER_PADDING) {
+		posX_ = static_cast<float>(rand() % (SCREEN_WIDTH * 2));
+		posY_ = static_cast<float>(rand() % (SCREEN_HEIGHT * 2));
 	}
 	angle_ = 0.0f;
-	SDL_Surface* surface = IMG_Load("Resource/enemy.png");
-	if (surface == nullptr) {
-		printf("이미지 파일 로드 실패: %s\n", IMG_GetError());
-		exit(-1);
-	}
 
 	texture[right] = new Sprite(renderer, "Resource/enemy/right.png", 11, ani_speed);
 	texture[left] = new Sprite(renderer, "Resource/enemy/left.png", 11, ani_speed);
-	SDL_FreeSurface(surface);
 
+}
+Enemy::Enemy(bool bossflag) 
+	:isFrozen(false), isTideAttacked(false), flag(true), isThrusted(false), isHit(false)
+{
+	posX_ = static_cast<float>((rand() - (RAND_MAX / 2)) % (SCREEN_WIDTH * 2));
+	posY_ = static_cast<float>((rand() - (RAND_MAX / 2)) % (SCREEN_HEIGHT * 2));\
+	while (posX_ < SCREEN_CENTER_X + USER_PADDING && posX_ > SCREEN_CENTER_X - USER_PADDING &&
+		posY_ < SCREEN_CENTER_Y + USER_PADDING && posY_ > SCREEN_CENTER_Y - USER_PADDING) {
+		posX_ = static_cast<float>(rand() % (SCREEN_WIDTH * 2));
+		posY_ = static_cast<float>(rand() % (SCREEN_HEIGHT * 2));
+	}
+	angle_ = 0.0f;
+
+	hp_ = 2000;
+	texture[right] = new Sprite(renderer, "Resource/enemy/right.png", 11, ani_speed);
+	texture[left] = new Sprite(renderer, "Resource/enemy/left.png", 11, ani_speed);
+	is_boss = true;
 }
 
 Enemy::~Enemy() {
@@ -50,7 +52,20 @@ void Enemy::render() {
 		}
 	}
 
-	texture[direct]->Render(renderer, static_cast<int>(posX_), static_cast<int>(posY_));
+	if (is_boss) {
+		{	//hp_bar
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+			SDL_Rect hp_rect = { static_cast<int>(posX_) + 20, static_cast<int>(posY_) - 10 , 200, 5 };
+			SDL_RenderFillRect(renderer, &hp_rect);
+			int point = static_cast<int>((hp_ / 2000) * 200.0);
+			SDL_SetRenderDrawColor(renderer, 136, 8, 8, 255);
+			hp_rect.w = point;
+			SDL_RenderFillRect(renderer, &hp_rect);
+		}
+		texture[direct]->RenderEx(renderer, static_cast<int>(posX_), static_cast<int>(posY_), 2);
+	}
+	else
+		texture[direct]->Render(renderer, static_cast<int>(posX_), static_cast<int>(posY_));
 }
 
 void Enemy::update(int input[5]) {
@@ -118,7 +133,11 @@ void Enemy::update(int input[5]) {
 	angle_ = std::atan2(dy, dx) * 180.0f / M_PI;
 }
 SDL_Rect Enemy::get_drect() {
-	SDL_Rect objectRect = { static_cast<int>(posX_), static_cast<int>(posY_), OBJECT_SIZE, OBJECT_SIZE };
+	SDL_Rect objectRect;
+	if(is_boss)
+		objectRect = { static_cast<int>(posX_), static_cast<int>(posY_), OBJECT_WIDTH*2, OBJECT_HEIGHT*2};
+	else
+		objectRect = { static_cast<int>(posX_), static_cast<int>(posY_), OBJECT_WIDTH, OBJECT_HEIGHT };
 	return objectRect;
 }
 int Enemy::get_hp() {

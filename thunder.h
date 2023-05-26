@@ -1,8 +1,8 @@
 #pragma once
 #include "Game.h"
 #include "Enemy.h"
-#include <cstdlib>
-#include <time.h>
+#include "EffectManager.h"
+
 
 class Thunder : public Attack {
 public:
@@ -20,13 +20,14 @@ public:
 
 private:
 	float gen_timer, gen_cycle;
-	
 	int gen_quantity;
-	SDL_Texture* texture_;
 	SDL_Rect s_rect , d_rect;
 	SDL_Point s_cen;
 	int damage;
 	Pos APos;
+	int width, height;
+	EffectManager effects;
+	Mix_Chunk* sound;
 };
 double setRandom(int a);
 double setRandom2(int a);

@@ -25,6 +25,10 @@ Freeze::Freeze()
 
 	skill_type = SkillType::Freeze;
 	//level = 1;
+	sound = Mix_LoadMUS("Resource/sound/IceAttack.mp3");
+	if (sound == 0) {
+		std::cout << "Mix_LoadWAV(\"Blop Sound.wav\"): " << Mix_GetError() << std::endl;
+	}
 }
 
 Freeze::~Freeze() {
@@ -47,6 +51,7 @@ void Freeze::update(std::list<SDL_Rect> enemies, int input[5]) {
 	if (m_bSkilloff) {
 		gen_timer -= 33;
 		if (gen_timer < 0) {
+			Mix_FadeInMusic(sound, 1, 2000);
 			gen_timer = gen_cycle;
 			freezeOn = true;
 			add_pos();

@@ -36,6 +36,9 @@ extern bool g_running;
 extern SDL_Renderer* renderer;
 extern int cur_phase;
 extern int speed;
+extern bool stage_end;
+extern bool user_dead;
+extern int time_speed;
 struct Pos {
 	float posX, posY;
 	float angle, cosAngle, sinAngle;

@@ -11,10 +11,13 @@ Tide::Tide() {
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
 	srect_ = { 287, 43, 205, 513 };
+	width = 200;
+	height = 288;
+	sprite = new Sprite(renderer, "Resource/effect/tide.png", 8, 200);
 	gen_timer = 5000.0f;
 	gen_cycle = gen_timer;
-	damage = 10;
-
+	damage = 5;
+	//level = 1;
 	skill_type = SkillType::Tide;
 }
 
@@ -26,8 +29,9 @@ void Tide::render() {
 	if (level < 1)
 		return;
 	for (auto& i : pos_list) {
-		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), 205, 513 };
-		SDL_RenderCopyEx(renderer, texture_, &srect_, &i.objectRect, i.angle, nullptr, SDL_FLIP_HORIZONTAL);
+		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), width, height };
+		/*SDL_RenderCopyEx(renderer, texture_, &srect_, &i.objectRect, i.angle, nullptr, SDL_FLIP_HORIZONTAL);*/
+		sprite->RenderEx2(renderer, i.objectRect, i.angle);
 	}
 }
 
@@ -49,6 +53,7 @@ void Tide::update(std::list<SDL_Rect> enemies, int input[5]) {
 		add_pos(enemies);
 	}
 
+	sprite->Update();
 	for (auto& i : pos_list) {
 		i.posX -= SPEED_TIDE * i.cosAngle;
 		i.posY -= SPEED_TIDE * i.sinAngle;
@@ -71,8 +76,8 @@ void Tide::update(std::list<SDL_Rect> enemies, int input[5]) {
 void Tide::add_pos(std::list<SDL_Rect> enemies) {
 	float min_distance = 1234123124.0f;
 	Pos pos;
-	pos.posX = SCREEN_CENTER_X - 20;
-	pos.posY = SCREEN_CENTER_Y - 10;
+	pos.posX = SCREEN_CENTER_X - (width/2);
+	pos.posY = SCREEN_CENTER_Y - (height/2);
 	float min_dx = 1234123124.0f, min_dy = 1234123124.0f;
 	float dx = 0.f, dy = 0.f, distance;
 	for (auto& i : enemies) {
@@ -99,4 +104,14 @@ int Tide::get_damage() {
 
 void Tide::levelup() {
 	level += 1;
+	if (level == 2) {
+		gen_cycle *= 0.8;
+	}
+	else if (level == 3) {
+		width += 100;
+		height += 100;
+	}
+	else if (level == 4) {
+		damage += 10;
+	}
 }

@@ -10,11 +10,15 @@ BasicAttack::BasicAttack() {
 	}
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
+	sound = Mix_LoadWAV("Resource/sound/BasicAttack.wav");
+	if (sound == 0) {
+		std::cout << "Resource/sound/test.wav" << Mix_GetError() << std::endl;
+	}
 	gen_timer = 1000.0f;
 	gen_cycle = 1000.0f;
 	gen_quantity = 1;
 	damage = 20;
-	//level = 1;
+	level = 1;
 }
 
 BasicAttack::~BasicAttack() {
@@ -44,6 +48,7 @@ void BasicAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 	if (gen_timer < 0) {
 		gen_timer = gen_cycle;
 		for (int i = 0; i < gen_quantity; i++) {
+			Mix_PlayChannel(-1, sound, 0);
 			add_pos(enemies);
 		}
 	}
@@ -88,8 +93,8 @@ void BasicAttack::add_pos(std::list<SDL_Rect> enemies) {
 	float min_dx, min_dy;
 	float dx, dy, distance;
 	for (auto& i : enemies) {
-		dx = SCREEN_CENTER_X - i.x;
-		dy = SCREEN_CENTER_Y - i.y;
+		dx = pos.posX - (i.x + 64);
+		dy = pos.posY - (i.y + 24);
 		distance = std::sqrt(dx * dx + dy * dy);
 		if (min_distance > distance) {
 			min_distance = distance;

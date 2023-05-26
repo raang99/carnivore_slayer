@@ -29,8 +29,12 @@ Sprite::~Sprite()
 
 void Sprite::Update()
 {
+    if (!isStart) {
+        startFrame = static_cast<int>((SDL_GetTicks() / animationSpeed_) % frameCount_);
+        isStart = true;
+    }
     // 애니메이션 프레임 업데이트
-    currentFrame_ = static_cast<int>((SDL_GetTicks() / animationSpeed_) % frameCount_);
+    currentFrame_ = static_cast<int>(((SDL_GetTicks() - startFrame* animationSpeed_) / animationSpeed_) % frameCount_) ;
 }
 
 void Sprite::Render(SDL_Renderer* renderer, int x, int y)
@@ -41,6 +45,26 @@ void Sprite::Render(SDL_Renderer* renderer, int x, int y)
     // 텍스처를 렌더러에 그림
     SDL_Rect destRect = { x, y, frameWidth_, frameHeight_ };
     SDL_RenderCopy(renderer, texture_, &srcRect, &destRect);
+}
+
+void Sprite::RenderEx(SDL_Renderer* renderer, int x, int y, int n)
+{
+    // 현재 프레임의 텍스처 영역 계산
+    SDL_Rect srcRect = { frameWidth_ * currentFrame_, 0, frameWidth_, frameHeight_ };
+
+    // 텍스처를 렌더러에 그림
+    SDL_Rect destRect = { x, y, frameWidth_ * n, frameHeight_ * n};
+    SDL_RenderCopy(renderer, texture_, &srcRect, &destRect);
+}
+
+void Sprite::RenderEx2(SDL_Renderer* renderer, SDL_Rect rect, float angle)
+{
+    // 현재 프레임의 텍스처 영역 계산
+    SDL_Rect srcRect = { frameWidth_ * currentFrame_, 0, frameWidth_, frameHeight_ };
+
+    // 텍스처를 렌더러에 그림
+    SDL_Rect destRect = { rect.x, rect.y, rect.w, rect.h };
+    SDL_RenderCopyEx(renderer, texture_, &srcRect, &destRect, angle-90.0f, nullptr, SDL_FLIP_NONE);
 }
 
 void Sprite::setColor(SDL_Renderer* renderer, SDL_Color color) {

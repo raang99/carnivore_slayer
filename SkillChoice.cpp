@@ -10,41 +10,54 @@ SkillChoice::SkillChoice() {
         SDL_Quit();
         exit(-1);
     }
-
-    images[HP_MAX] = new Texture("Resource/skills/hp_max.png");
+    explain_font = TTF_OpenFont("Resource/arose.ttf", 15);
+    if (explain_font == nullptr)
+    {
+        SDL_Log("폰트 열기 실패: %s", TTF_GetError());
+        SDL_DestroyRenderer(renderer);
+        TTF_Quit();
+        SDL_Quit();
+        exit(-1);
+    }
+    images[HP_MAX] = new Texture("Resource/skills/hp_max_.png");
     wcscpy_s(SKILL_EXPLAIN[HP_MAX][0], L"최대체력 10% 증가");
-    images[HEAL] = new Texture("Resource/skills/heal.png");
+    images[HEAL] = new Texture("Resource/skills/heal_.png");
     wcscpy_s(SKILL_EXPLAIN[HEAL][0], L"초당 회복 5증가");
-    images[SPEED] = new Texture("Resource/skills/speed.png");
+    images[SPEED] = new Texture("Resource/skills/speed_.png");
     wcscpy_s(SKILL_EXPLAIN[SPEED][0], L"이동속도 증가");
-    images[SEARCH] = new Texture("Resource/skills/search.png");
+    images[SEARCH] = new Texture("Resource/skills/search_.png");
     wcscpy_s(SKILL_EXPLAIN[SEARCH][0], L"아이템습득범위 증가");
-    images[GROWTH] = new Texture("Resource/skills/growth.png");
+    images[GROWTH] = new Texture("Resource/skills/growth_.png");
     wcscpy_s(SKILL_EXPLAIN[GROWTH][0], L"경험치습득량 증가");
-    images[BASIC] = new Texture("Resource/skills/basic.png");
+    images[BASIC] = new Texture("Resource/skills/basic_.png");
     wcscpy_s(SKILL_EXPLAIN[BASIC][1], L"쿨타임 20% 감소");
     wcscpy_s(SKILL_EXPLAIN[BASIC][2], L"투사체 1개 증가");
     wcscpy_s(SKILL_EXPLAIN[BASIC][3], L"투사체 1개 증가");
-    images[HORN] = new Texture("Resource/skills/horn.png");
+    images[HORN] = new Texture("Resource/skills/horn_.png");
     wcscpy_s(SKILL_EXPLAIN[HORN][0], L"강한 뿔로 공격합니다.");
     wcscpy_s(SKILL_EXPLAIN[HORN][1], L"쿨타임 20% 감소");
     wcscpy_s(SKILL_EXPLAIN[HORN][2], L"공격범위 증가");
     wcscpy_s(SKILL_EXPLAIN[HORN][3], L"쿨타임 30% 감소");
-    images[ELECTRIC] = new Texture("Resource/skills/electric.png");
+    images[ELECTRIC] = new Texture("Resource/skills/electric_.png");
     wcscpy_s(SKILL_EXPLAIN[ELECTRIC][0], L"전자기장을 펼쳐 공격합니다.");
     wcscpy_s(SKILL_EXPLAIN[ELECTRIC][1], L"공격범위 20% 증가");
     wcscpy_s(SKILL_EXPLAIN[ELECTRIC][2], L"데미지 10 증가");
     wcscpy_s(SKILL_EXPLAIN[ELECTRIC][3], L"공격주기 20% 감소");
-    images[FREEZE] = new Texture("Resource/skills/freeze.png");
-    wcscpy_s(SKILL_EXPLAIN[FREEZE][0], L"냉기를 폭발시켜 공격하며 상대를 느리게합니다.");
+    images[FREEZE] = new Texture("Resource/skills/freeze_.png");
+    wcscpy_s(SKILL_EXPLAIN[FREEZE][0], L"냉기를 폭발시켜 공격합니다.");
     wcscpy_s(SKILL_EXPLAIN[FREEZE][1], L"쿨타임 20% 감소");
     wcscpy_s(SKILL_EXPLAIN[FREEZE][2], L"공격범위 증가");
     wcscpy_s(SKILL_EXPLAIN[FREEZE][3], L"쿨타임 20% 감소");
-    images[THUNDER] = new Texture("Resource/skills/thunder.png");
+    images[THUNDER] = new Texture("Resource/skills/thunder_.png");
     wcscpy_s(SKILL_EXPLAIN[THUNDER][0], L"낙뢰를 일으켜 공격합니다.");
     wcscpy_s(SKILL_EXPLAIN[THUNDER][1], L"쿨타임 30% 감소");
     wcscpy_s(SKILL_EXPLAIN[THUNDER][2], L"쿨타임 30% 감소");
     wcscpy_s(SKILL_EXPLAIN[THUNDER][3], L"쿨타임 30% 감소");
+    images[TIDE] = new Texture("Resource/skills/tide_.png");
+    wcscpy_s(SKILL_EXPLAIN[TIDE][0], L"파도를 일으켜 공격합니다.");
+    wcscpy_s(SKILL_EXPLAIN[TIDE][1], L"공격범위 증가");
+    wcscpy_s(SKILL_EXPLAIN[TIDE][2], L"쿨타임 감소");
+    wcscpy_s(SKILL_EXPLAIN[TIDE][3], L"데미지 10 증가");
 
     for (int i = 0; i < BUTTON_COUNT; i++)
     {
@@ -57,6 +70,7 @@ SkillChoice::SkillChoice() {
 }
 SkillChoice::~SkillChoice() {
     TTF_CloseFont(font_);
+    TTF_CloseFont(explain_font);
 }
 void SkillChoice::handleEvents(User* user, std::vector<Attack*>* attack) {
     SDL_Event event;
@@ -138,7 +152,7 @@ void SkillChoice::render(User *user, std::vector<Attack*>* attack) {
             text = SKILL_EXPLAIN[choices[i]][level];
         }
 
-        labelSurface = TTF_RenderUTF8_Blended(font_, CW2A(text, CP_UTF8), { 255, 255, 255 });
+        labelSurface = TTF_RenderUTF8_Blended(explain_font, CW2A(text, CP_UTF8), { 255, 255, 255 });
         if (labelSurface != nullptr)
         {
             SDL_Texture* labelTexture = SDL_CreateTextureFromSurface(renderer, labelSurface);

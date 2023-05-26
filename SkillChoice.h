@@ -20,6 +20,7 @@
 #define ELECTRIC 0x7
 #define FREEZE 0x8
 #define THUNDER 0x9
+#define TIDE 0xA
 
 struct Button
 {
@@ -35,11 +36,11 @@ const int BACK_X = 50;
 const int BACK_Y = 70;
 const int BUTTON_COUNT = 3;
 const int BUTTON_PADDING = 40;
-const int EXPLAIN_PADDING = 20;
+const int EXPLAIN_PADDING = 50;
 const int BUTTON_WIDTH = BACK_WIDTH/3;
 const int BUTTON_HEIGHT = BACK_HEIGHT;
 const int TEXT_Y = 250;
-const int SKILL_COUNT = 10;
+const int SKILL_COUNT = 11;
 class SkillChoice {
 public:
 	SkillChoice();
@@ -59,8 +60,9 @@ private:
 													L"»ÔÄ¡±â",
 													L"ÀüÀÚ±âÀå",
 													L"ºù°á",
-													L"³«·Ú"};
-	TTF_Font* font_;
+													L"³«·Ú",
+													L"ÆÄµµ"};
+	TTF_Font* font_, *explain_font;
 	Texture* images[SKILL_COUNT];
 	Button buttons_[BUTTON_COUNT];
 	bool reset_flag;

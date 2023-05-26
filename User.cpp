@@ -8,6 +8,10 @@ User::User() {
 	drect_.y = SCREEN_HEIGHT / 2 - drect_.h / 2;
 	xPos = drect_.x;//나중에 중앙 정렬할 수 있게 수정
 	yPos = drect_.y;
+	hit_box.x = drect_.x + 10;
+	hit_box.y = drect_.y + 10;
+	hit_box.w = drect_.w - 20;
+	hit_box.h = drect_.h - 20;
 	max_exp = 100;
 	cur_exp = 0;
 	max_hp = 200;
@@ -16,6 +20,7 @@ User::User() {
 	texture[DOWN] = new Sprite(renderer, "Resource/user/down.png", 10, 200);
 	texture[LEFT] = new Sprite(renderer, "Resource/user/left.png", 12, 200);
 	texture[RIGHT] = new Sprite(renderer, "Resource/user/right.png", 12, 200);
+	dead_effect = new Sprite(renderer, "Resource/user/dead.png", 20, 200);
 	direct = DOWN;
 	search_rect = drect_;
 }
@@ -24,6 +29,13 @@ User::~User() {
 }
 
 void User::render() {
+	if (user_dead) {
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_Rect tmp = { 0,0,800,600 };
+		SDL_RenderFillRect(renderer, &tmp);
+		dead_effect->Render(renderer, drect_.x, drect_.y);
+		return;
+	}
 	texture[direct]->Render(renderer, drect_.x, drect_.y);
 	//	Bright Yellow - exp bar
 	{
@@ -46,7 +58,21 @@ void User::render() {
 }
 
 void User::update(int input[5]) {
+	if (user_dead) {
+		dead_effect->Update();
+		if (dead_effect->currentFrame_ >= 19) {
+			stage_end = true;
+			cur_phase = END;
+		}
+		return;
+	}
+	
 	heal_delay -= 33;
+	if (cur_hp <= 0) {
+		/*stage_end = true;
+		cur_phase = END;*/
+		user_dead = true;
+	}
 	if (heal_delay < 0) {
 		if (cur_hp < max_hp) {
 			cur_hp += heal_point;

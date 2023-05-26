@@ -19,4 +19,5 @@ private:
 	int gen_quantity;
 	SDL_Texture *texture_;
 	int damage;
+	Mix_Chunk* sound;
 };

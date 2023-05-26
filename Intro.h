@@ -16,4 +16,6 @@ public:
 	virtual void Render();
 private:
 	Texture *start_button, *background;
+	Mix_Music* bg_sound;
+	bool sound_started = false;
 };

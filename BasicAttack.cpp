@@ -104,7 +104,7 @@ void BasicAttack::add_pos(std::list<SDL_Rect> enemies) {
 	}
 	pos.cosAngle = min_dx / min_distance;
 	pos.sinAngle = min_dy / min_distance;
-	pos.angle = std::atan2(dy, dx) * 180.0f / M_PI;
+	pos.angle = std::atan2(min_dy, min_dx) * 180.0f / M_PI;
 	pos_list.push_back(pos);
 }
 

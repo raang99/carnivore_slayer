@@ -60,7 +60,7 @@ void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<
 
 		for (auto& a : *attack) {
 			if (isHitted(i, a)) {
-				if (!i->isTideAttacked) {
+				if ((!i->isTideAttacked) && (!i->isHornAttacked)) {
 					hp = i->get_hp();
 					hp -= a->get_damage(); //damage;
 					i->set_hp(hp);
@@ -72,6 +72,12 @@ void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<
 					if (i->flag) {
 						i->isTideAttacked = true;
 						i->flag = false;
+					}
+				}
+				if (a->skill_type == SkillType::HornAttack) {
+					if (i->flag2) {
+						i->isHornAttacked = true;
+						i->flag2 = false;
 					}
 				}
 			}
@@ -98,9 +104,6 @@ void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<
 		}
 		else if ((*iter)->skill_type == SkillType::Freeze) {
 			dynamic_cast<Freeze*>((*iter))->ClearPos();
-		}
-		else if ((*iter)->skill_type == SkillType::HornAttack) {
-			dynamic_cast<HornAttack*>((*iter))->ClearPos();
 		}
 	}
 }
@@ -170,6 +173,7 @@ bool isMultiattack(Attack* Attack) {
 	case SkillType::Thunder:
 	case SkillType::Freeze:
 	case SkillType::Tide:
+	case SkillType::HornAttack:
 		return true;
 	default:
 		return false;

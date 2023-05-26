@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 Enemy::Enemy()
-	:isFrozen(false), isTideAttacked(false), flag(true), isThrusted(false), isHit(false)
+	:isFrozen(false), isTideAttacked(false), isHornAttacked(false), flag(true), flag2(true), isThrusted(false), isHit(false)
 {
 	posX_ = static_cast<float>((rand()- (RAND_MAX / 2)) % (SCREEN_WIDTH * 2));
 	posY_ = static_cast<float>((rand()- (RAND_MAX / 2)) % (SCREEN_HEIGHT * 2));\
@@ -107,6 +107,15 @@ void Enemy::update(int input[5]) {
 			posY_ -= OBJECT_SPEED * sinAngle * 100;
 		}
 		isThrusted = true;
+	}
+
+	if (isHornAttacked) {
+		horn_timer -= 33.f;
+		if (horn_timer < 0.f) {
+			isHornAttacked = false;
+			flag2 = true;
+			horn_timer = 1000.f;
+		}
 	}
 
 	if (isHit) {

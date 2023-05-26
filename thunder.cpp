@@ -1,7 +1,7 @@
 #include "Thunder.h"
 
 Thunder::Thunder()
-	:stateoff(true)
+	:stateoff(true), thunderOn(false)
 {
 	s_rect = { 0,0,30,30 };
 	d_rect = { 0,0,50,50 };
@@ -17,7 +17,7 @@ Thunder::Thunder()
 	if (sound == 0) {
 		std::cout << "Resource/sound/ThunderAttacklong.wav" << Mix_GetError() << std::endl;
 	}
-	// ÀÌ¹ÌÁö ÆÄÀÏ·ÎºÎÅÍ ÅØ½ºÃ³ »ı¼º
+	// ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·Îºï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½
 	SDL_Surface* surface = IMG_Load("Resource/effect/thunder.png");
 	if (surface == nullptr) {
 		std::cerr << "Failed to load image: " << "Resource/effect/thunder.png" << std::endl;
@@ -83,7 +83,7 @@ void Thunder::add_pos() {
 
 
 int Thunder::get_damage() {
-	//µ¥¹ÌÁö ÁÖ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 	return damage;
 }
 

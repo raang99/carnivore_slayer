@@ -5,6 +5,7 @@
 #include "thunder.h"
 #include "Freeze.h"
 #include "HornAttack.h"
+#include "BasicAttack.h"
 #include "Sprite.h"
 #include "EffectManager.h"
 class EnemyManager {
@@ -12,7 +13,7 @@ public:
 	EnemyManager();
 	~EnemyManager();
 	void render();
-	void update(int input[5], std::vector<Attack*> *attack, std::list<Exp*>* exp_list);
+	void update(int input[5], std::vector<Attack*> *attack, std::list<Exp*>* exp_list, bool cheat_on);
 	void add_boss();
 	void set_cycle(double cycle);
 	std::list<SDL_Rect> get_drect_list();

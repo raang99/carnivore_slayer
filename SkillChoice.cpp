@@ -31,8 +31,8 @@ SkillChoice::SkillChoice() {
     wcscpy_s(SKILL_EXPLAIN[GROWTH][0], L"경험치습득량 증가");
     images[BASIC] = new Texture("Resource/skills/basic_.png");
     wcscpy_s(SKILL_EXPLAIN[BASIC][1], L"쿨타임 20% 감소");
-    wcscpy_s(SKILL_EXPLAIN[BASIC][2], L"투사체 1개 증가");
-    wcscpy_s(SKILL_EXPLAIN[BASIC][3], L"투사체 1개 증가");
+    wcscpy_s(SKILL_EXPLAIN[BASIC][2], L"쿨타임 20% 감소");
+    wcscpy_s(SKILL_EXPLAIN[BASIC][3], L"쿨타임 20% 감소");
     images[HORN] = new Texture("Resource/skills/horn_.png");
     wcscpy_s(SKILL_EXPLAIN[HORN][0], L"강한 뿔로 공격합니다.");
     wcscpy_s(SKILL_EXPLAIN[HORN][1], L"쿨타임 20% 감소");
@@ -40,8 +40,8 @@ SkillChoice::SkillChoice() {
     wcscpy_s(SKILL_EXPLAIN[HORN][3], L"쿨타임 30% 감소");
     images[ELECTRIC] = new Texture("Resource/skills/electric_.png");
     wcscpy_s(SKILL_EXPLAIN[ELECTRIC][0], L"전자기장을 펼쳐 공격합니다.");
-    wcscpy_s(SKILL_EXPLAIN[ELECTRIC][1], L"공격범위 20% 증가");
-    wcscpy_s(SKILL_EXPLAIN[ELECTRIC][2], L"데미지 10 증가");
+    wcscpy_s(SKILL_EXPLAIN[ELECTRIC][1], L"공격범위 증가");
+    wcscpy_s(SKILL_EXPLAIN[ELECTRIC][2], L"데미지 5 증가");
     wcscpy_s(SKILL_EXPLAIN[ELECTRIC][3], L"공격주기 20% 감소");
     images[FREEZE] = new Texture("Resource/skills/freeze_.png");
     wcscpy_s(SKILL_EXPLAIN[FREEZE][0], L"냉기를 폭발시켜 공격합니다.");
@@ -55,8 +55,8 @@ SkillChoice::SkillChoice() {
     wcscpy_s(SKILL_EXPLAIN[THUNDER][3], L"쿨타임 30% 감소");
     images[TIDE] = new Texture("Resource/skills/tide_.png");
     wcscpy_s(SKILL_EXPLAIN[TIDE][0], L"파도를 일으켜 공격합니다.");
-    wcscpy_s(SKILL_EXPLAIN[TIDE][1], L"공격범위 증가");
-    wcscpy_s(SKILL_EXPLAIN[TIDE][2], L"쿨타임 감소");
+    wcscpy_s(SKILL_EXPLAIN[TIDE][1], L"쿨타임 20% 감소");
+    wcscpy_s(SKILL_EXPLAIN[TIDE][2], L"공격범위 증가");
     wcscpy_s(SKILL_EXPLAIN[TIDE][3], L"데미지 10 증가");
 
     for (int i = 0; i < BUTTON_COUNT; i++)

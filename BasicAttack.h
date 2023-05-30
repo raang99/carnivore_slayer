@@ -18,6 +18,7 @@ private:
 	float gen_timer, gen_cycle;
 	int gen_quantity;
 	SDL_Texture *texture_;
+	Sprite* sprite;
 	int damage;
 	Mix_Chunk* sound;
 };

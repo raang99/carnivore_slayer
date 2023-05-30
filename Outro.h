@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "Texture.h"
+#include "Sprite.h"
 #define MAX_X 800
 #define MAX_Y 600
 #define BULLET 3
@@ -15,8 +16,9 @@ public:
 	virtual void Update();
 	virtual void Render();
 private:
-	Texture* button, * background;
-	Texture* back_win;
+	Sprite* background;
+	Texture* back_win[10];
+	int win_cnt;
 	Mix_Music* bg_sound_happy;
 	Mix_Music* bg_sound_sad;
 	bool sound_started = false;

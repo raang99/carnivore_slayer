@@ -7,7 +7,7 @@ EnemyManager::EnemyManager() {
 	gen_cycle = 5000.0f;
 	gen_timer = gen_cycle;
 	gen_quantity = 5;
-	boss_dead = new Sprite(renderer, "Resource/enemy/dead.png", 8, 200);
+	boss_dead = new Sprite(renderer, "Resource/enemy/boss/dead.png", 8, 200);
 	dead_sound = Mix_LoadWAV("Resource/sound/EnemyDie.wav");
 	if (dead_sound == 0) {
 		std::cout << "EnemyDie.wav" << Mix_GetError() << std::endl;
@@ -33,7 +33,7 @@ void EnemyManager::render() {
 	}
 }
 
-void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<Exp*>* exp_list) {
+void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<Exp*>* exp_list, bool cheat_on) {
 	gen_timer -= 33;
 	if (boss) {
 		if (boss->get_hp() <= 0) {
@@ -63,7 +63,14 @@ void EnemyManager::update(int input[5], std::vector<Attack*>* attack, std::list<
 				if ((!i->isTideAttacked) && (!i->isHornAttacked)) {
 					hp = i->get_hp();
 					hp -= a->get_damage(); //damage;
-					i->set_hp(hp);
+					
+					if (cheat_on) {
+						i->set_hp(0);
+					}
+					else {
+						i->set_hp(hp);
+					}
+
 					if (a->skill_type == SkillType::Tide) {
 						i->isThrusted = false;
 					}

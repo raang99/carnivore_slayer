@@ -47,7 +47,7 @@ void Sprite::Render(SDL_Renderer* renderer, int x, int y)
     SDL_RenderCopy(renderer, texture_, &srcRect, &destRect);
 }
 
-void Sprite::RenderEx(SDL_Renderer* renderer, int x, int y, int n)
+void Sprite::RenderEx(SDL_Renderer* renderer, float x, float y, float n)
 {
     // 현재 프레임의 텍스처 영역 계산
     SDL_Rect srcRect = { frameWidth_ * currentFrame_, 0, frameWidth_, frameHeight_ };

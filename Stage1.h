@@ -52,4 +52,6 @@ private:
 	double g_elapsed_time_ms;
 	bool boss_flag = true;
 	Mix_Music* bg_sound;
+	float boss_time;
+	bool cheat_on;
 };

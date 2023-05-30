@@ -12,8 +12,12 @@ Freeze::Freeze()
 	SDL_SetColorKey(sheet_surface, SDL_TRUE, SDL_MapRGB(sheet_surface->format, 0, 0, 0));
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
+	sprite = new Sprite(renderer, "Resource/effect/freeze.png", 6, 200);
 	srect_ = { 366, 80, 373, 353 };
-	drect_ = { 0, 0, 400, 400 };
+	drect_ = { 0, 0, 260, 200 };
+	n = 1.5f;
+	drect_.w *= n;
+	drect_.h *= n;
 	drect_.x = SCREEN_WIDTH / 2 - drect_.w / 2;
 	drect_.y = SCREEN_HEIGHT / 2 - drect_.h / 2;
 	xPos = drect_.x;
@@ -39,9 +43,10 @@ void Freeze::render() {
 	if (level < 1)
 		return;
 	if (freezeOn) {
-		float alpha = (gen_timer - (gen_cycle * 0.8)) / (gen_cycle - (gen_cycle * 0.8));
-		SDL_SetTextureAlphaMod(texture_, static_cast<Uint8>(alpha * 255));
-		SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
+		//float alpha = (gen_timer - (gen_cycle * 0.8)) / (gen_cycle - (gen_cycle * 0.8));
+		//SDL_SetTextureAlphaMod(texture_, static_cast<Uint8>(alpha * 255));
+		//SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
+		sprite->RenderEx(renderer, drect_.x, drect_.y, n);
 	}
 }
 
@@ -60,11 +65,12 @@ void Freeze::update(std::list<SDL_Rect> enemies, int input[5]) {
 	}
 
 	if (freezeOn) {
-		int duration = gen_cycle - gen_cycle * 0.8;
-		if (gen_timer < gen_cycle*0.8)
+		int duration = gen_cycle - gen_cycle * 0.85;
+		if (gen_timer < gen_cycle * 0.85)
 			freezeOn = false;
 	}
 
+	sprite->Update();
 	for (auto& i : pos_list) {
 		if (input[UP]) {
 			i.posY += speed;
@@ -87,10 +93,13 @@ void Freeze::levelup() {
 		gen_cycle *= 0.8;
 	}
 	else if (level == 3) {
-		drect_.x -= 50;
-		drect_.y -= 50;
-		drect_.w += 100;
-		drect_.h += 100;
+		n = 2.f;
+		drect_.w += 130.f;
+		drect_.h += 100.f;
+		drect_.x = SCREEN_WIDTH / 2 - drect_.w / 2;
+		drect_.y = SCREEN_HEIGHT / 2 - drect_.h / 2;
+		xPos = drect_.x;
+		yPos = drect_.y;
 	}
 	else if (level == 4) {
 		gen_cycle *= 0.8;

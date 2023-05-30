@@ -1,6 +1,8 @@
 #include "HornAttack.h"
 
-HornAttack::HornAttack() {
+HornAttack::HornAttack()
+	:hold_dir(true)
+{
 	SDL_Surface* sheet_surface;
 	sheet_surface = IMG_Load("Resource/horn.png");
 	if (!sheet_surface) {
@@ -9,12 +11,18 @@ HornAttack::HornAttack() {
 	}
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
+	sprite[0] = new Sprite(renderer, "Resource/effect/horn/hornback.png", 6, 200);
+	sprite[1] = new Sprite(renderer, "Resource/effect/horn/hornfront.png", 6, 200);
+	sprite[2] = new Sprite(renderer, "Resource/effect/horn/hornright.png", 6, 200);
+	sprite[3] = new Sprite(renderer, "Resource/effect/horn/hornleft.png", 6, 200);
 	srect_ = { 96, 58, 130, 104 };
-	drect_ = { 0, 0, 130, 104 };
+	width = 100;
+	height = 100;
 	gen_timer = 2000.0f;
 	gen_cycle = gen_timer;
 	damage = 10;
 	dir = UP;
+	holding_time = 0.f;
 
 	skill_type = SkillType::HornAttack;
 }
@@ -27,14 +35,31 @@ void HornAttack::render() {
 	if (level < 1)
 		return;
 	for (auto& i : pos_list) {
-		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), drect_.w, drect_.h };
-		SDL_RenderCopyEx(renderer, texture_, &srect_, &i.objectRect, i.angle, nullptr, SDL_FLIP_NONE);
+		if (dir == UP) {
+			i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), width, height };
+			sprite[0]->RenderEx2(renderer, i.objectRect, 90.f);
+		}
+
+		else if (dir == DOWN) {
+			i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), width, height };
+			sprite[1]->RenderEx2(renderer, i.objectRect, 270.f);
+		}
+
+		else if (dir == LEFT) {
+			i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), width, height };
+			sprite[2]->RenderEx2(renderer, i.objectRect, 0.f);
+		}
+
+		else if (dir == RIGHT) {
+			i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), width, height };
+			sprite[3]->RenderEx2(renderer, i.objectRect, 180.f);
+		}
 	}
 }
 
 bool isOut3(Pos& b) {
 	if (b.posX < 150 || b.posY < 100 ||
-		b.posX > SCREEN_WIDTH - 280 || b.posY > SCREEN_HEIGHT - 204) {
+		b.posX > SCREEN_WIDTH - 250 || b.posY > SCREEN_HEIGHT - 200) {
 		return true;
 	}
 	else
@@ -45,12 +70,40 @@ void HornAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 	if (level < 1)
 		return;
 
-	set_dir(input);
+	if (hold_dir) {
+		holding_time += 33.f;
+
+		if (holding_time > 500.f)
+		{
+			holding_time = 0.f;
+			hold_dir = false;
+		}
+	}
+	else {
+		set_dir(input);
+	}
 
 	gen_timer -= 33.f;
 	if (gen_timer < 0) {
 		gen_timer = gen_cycle;
 		add_pos(enemies);
+		hold_dir = true;
+	}
+
+	if (dir == UP) {
+		sprite[0]->Update();
+	}
+
+	else if (dir == DOWN) {
+		sprite[1]->Update();
+	}
+
+	else if (dir == LEFT) {
+		sprite[2]->Update();
+	}
+
+	else if (dir == RIGHT) {
+		sprite[3]->Update();
 	}
 
 	for (auto& i : pos_list) {
@@ -116,8 +169,8 @@ void HornAttack::levelup() {
 		gen_cycle *= 0.8;
 	}
 	else if (level == 3) {
-		drect_.w += 60;
-		drect_.h += 60;
+		width += 60;
+		height += 60;
 	}
 	else if (level == 4) {
 		gen_cycle *= 0.7;

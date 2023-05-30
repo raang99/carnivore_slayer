@@ -12,8 +12,12 @@ ElectricField::ElectricField()
 	SDL_SetColorKey(sheet_surface, SDL_TRUE, SDL_MapRGB(sheet_surface->format, 0, 0, 0));
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
+	sprite = new Sprite(renderer, "Resource/effect/electric.png", 4, 200);
 	srect_ = { 214, 99, 439, 394 };
-	drect_ = { 0, 0, 200, 200 };
+	drect_ = { 0, 0, 150, 150 };
+	n = 1.4f;
+	drect_.w *= n;
+	drect_.h *= n;
 	drect_.x = SCREEN_WIDTH / 2 - drect_.w / 2;
 	drect_.y = SCREEN_HEIGHT / 2 - drect_.h / 2;
 	xPos = drect_.x;
@@ -34,7 +38,8 @@ ElectricField::~ElectricField() {
 void ElectricField::render() {
 	if (level < 1)
 		return;
-	SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
+	sprite->RenderEx(renderer, drect_.x, drect_.y, n);
+	//SDL_RenderCopy(renderer, texture_, &srect_, &drect_);
 }
 
 void ElectricField::update(std::list<SDL_Rect> enemies, int input[5]) {
@@ -49,6 +54,7 @@ void ElectricField::update(std::list<SDL_Rect> enemies, int input[5]) {
 		}
 	}
 
+	sprite->Update();
 	for (auto& i : pos_list) {
 		if (input[UP]) {
 			i.posY += speed;
@@ -68,10 +74,13 @@ void ElectricField::update(std::list<SDL_Rect> enemies, int input[5]) {
 void ElectricField::levelup() {
 	level += 1;
 	if (level == 2) {
-		drect_.x -= 30;
-		drect_.y -= 30;
-		drect_.w += 60;
-		drect_.h += 60;
+		n = 2.f;
+		drect_.w += 90.f;
+		drect_.h += 90.f;
+		drect_.x = SCREEN_WIDTH / 2 - drect_.w / 2;
+		drect_.y = SCREEN_HEIGHT / 2 - drect_.h / 2;
+		xPos = drect_.x;
+		yPos = drect_.y;
 	}
 	else if (level == 3) {
 		damage += 5;

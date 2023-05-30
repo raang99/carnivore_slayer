@@ -10,6 +10,7 @@ BasicAttack::BasicAttack() {
 	}
 	texture_ = SDL_CreateTextureFromSurface(renderer, sheet_surface);
 	SDL_FreeSurface(sheet_surface);
+	sprite = new Sprite(renderer, "Resource/effect/attack.png", 4, 200);
 	sound = Mix_LoadWAV("Resource/sound/BasicAttack.wav");
 	if (sound == 0) {
 		std::cout << "Resource/sound/test.wav" << Mix_GetError() << std::endl;
@@ -29,8 +30,9 @@ void BasicAttack::render() {
 	if (level < 1)
 		return;
 	for (auto& i : pos_list) {
-		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), 40, 20 };
-		SDL_RenderCopyEx(renderer, texture_, nullptr , &i.objectRect, i.angle, nullptr, SDL_FLIP_HORIZONTAL);
+		i.objectRect = { static_cast<int>(i.posX), static_cast<int>(i.posY), 40, 40 };
+		//SDL_RenderCopyEx(renderer, texture_, nullptr , &i.objectRect, i.angle, nullptr, SDL_FLIP_HORIZONTAL);
+		sprite->RenderEx2(renderer, i.objectRect, i.angle);
 	}
 }
 bool isOut(Pos b) {
@@ -52,6 +54,8 @@ void BasicAttack::update(std::list<SDL_Rect> enemies, int input[5]) {
 			add_pos(enemies);
 		}
 	}
+
+	sprite->Update();
 	for (auto &i : pos_list) {
 		i.posX -= SPEED * i.cosAngle;
 		i.posY -= SPEED * i.sinAngle;

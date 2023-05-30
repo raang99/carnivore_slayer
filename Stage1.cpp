@@ -9,7 +9,7 @@ Stage1::Stage1() {
 	attack_list.push_back(new Thunder());
 	attack_list.push_back(new Tide());
 	}
-	time = new TTF("Resource/arial.ttf", 40);
+	time = new TTF("Resource/PeaberryBase.ttf", 40);
 	exp_sound = Mix_LoadWAV("Resource/sound/ExpGet.wav");
 	if (exp_sound == 0) {
 		std::cout << "Resource/sound/ExpGet.wav" << Mix_GetError() << std::endl;
@@ -22,6 +22,8 @@ Stage1::Stage1() {
 	user_dead = false;
 	time_speed = 33;
 	speed = 5;
+	boss_time = 1000.f;
+	cheat_on = false;
 }
 
 Stage1::~Stage1() {
@@ -72,6 +74,10 @@ void Stage1::HandleEvents() {
 			if (event.key.keysym.sym == SDLK_SPACE) {
 				input[SHOT] = 1;
 			}
+			if (event.key.keysym.sym == SDLK_BACKSPACE) {
+				boss_time = 1.f;
+				cheat_on = true;
+			}
 			break;
 
 		case SDL_KEYUP:
@@ -108,7 +114,7 @@ void Stage1::Update() {
 	if (user_.levelup_flag) 
 		return;
 	g_elapsed_time_ms += 33;
-	if (g_elapsed_time_ms > 1000.0 * 60.0 * 10.0 && boss_flag) {
+	if (g_elapsed_time_ms > boss_time * 60.0 * 10.0 && boss_flag) {
 		enemy.add_boss();
 		boss_flag = false;
 	}
@@ -128,7 +134,7 @@ void Stage1::Update() {
 		}
 		++it;
 	}
-	enemy.update(input, &attack_list, &exp_list);
+	enemy.update(input, &attack_list, &exp_list, cheat_on);
 	
 }
 
@@ -145,6 +151,11 @@ void Stage1::Render() {
 	map_.setCamera(user_.xPos, user_.yPos);
 	map_.render();
 	user_.render();
+	enemy.render();
+	for (auto& i : attack_list)
+		i->render();
+	for (auto& i : exp_list)
+		i->render();
 	{//time
 		wchar_t tmp[10];
 		int seconds = int(g_elapsed_time_ms / 1000.0f);
@@ -152,12 +163,6 @@ void Stage1::Render() {
 		time->set_text(tmp, white);
 		time->render(350, 20);
 	}
-	
-	enemy.render();
-	for(auto& i : attack_list)
-		i->render();
-	for (auto& i : exp_list)
-		i->render();
 	SDL_RenderPresent(renderer);
 }
 
@@ -203,6 +208,6 @@ void Stage1::set_enemyCycle() {
 		enemy.set_cycle(33.0f);
 	}
 	else if (minute == 10) {
-		enemy.set_cycle(33.0f);
+		enemy.set_cycle(66.0f);
 	}
 }

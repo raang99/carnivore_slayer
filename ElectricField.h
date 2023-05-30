@@ -21,6 +21,8 @@ public:
 private:
 	float gen_timer, gen_cycle;
 	SDL_Texture* texture_;
+	Sprite* sprite;
 	SDL_Rect srect_;
+	float n;
 	int damage;
 };

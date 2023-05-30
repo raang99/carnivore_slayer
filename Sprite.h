@@ -8,7 +8,7 @@ public:
 
     void Update();
     void Render(SDL_Renderer* renderer, int x, int y);
-    void RenderEx(SDL_Renderer* renderer, int x, int y, int n);
+    void RenderEx(SDL_Renderer* renderer, float x, float y, float n);
     void RenderEx2(SDL_Renderer* renderer, SDL_Rect rect, float angle);
     void setColor(SDL_Renderer* renderer, SDL_Color color);
     int frameCount_;

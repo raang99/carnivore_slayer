@@ -14,7 +14,7 @@ Enemy::Enemy()
 
 	texture[right] = new Sprite(renderer, "Resource/enemy/right.png", 11, ani_speed);
 	texture[left] = new Sprite(renderer, "Resource/enemy/left.png", 11, ani_speed);
-
+	
 }
 Enemy::Enemy(bool bossflag) 
 	:isFrozen(false), isTideAttacked(false), flag(true), isThrusted(false), isHit(false)
@@ -29,8 +29,8 @@ Enemy::Enemy(bool bossflag)
 	angle_ = 0.0f;
 
 	hp_ = 2000;
-	texture[right] = new Sprite(renderer, "Resource/enemy/right.png", 11, ani_speed);
-	texture[left] = new Sprite(renderer, "Resource/enemy/left.png", 11, ani_speed);
+	texture[right] = new Sprite(renderer, "Resource/enemy/boss/right.png", 11, ani_speed);
+	texture[left] = new Sprite(renderer, "Resource/enemy/boss/left.png", 11, ani_speed);
 	is_boss = true;
 }
 

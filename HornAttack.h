@@ -13,12 +13,15 @@ public:
 	int get_damage() override;
 	void levelup() override;
 	void add_pos(std::list<SDL_Rect> enemies);
-	SDL_Rect drect_;
 private:
 	double gen_timer, gen_cycle;
 	SDL_Texture* texture_;
+	Sprite* sprite[4];
 	SDL_Rect srect_;
+	int width, height;
 	int damage;
 	int dir;
+	bool hold_dir;
+	float holding_time;
 	void set_dir(int input[5]);
 };
